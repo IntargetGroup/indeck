@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generatore Prompt: Bozza Mediaplan - In:Deck</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Stili specifici minimi (idealmente in style.css con #prompt-builder-container) */
+    #prompt-builder-container textarea#datiGrezzi,
+    #prompt-builder-container textarea#datiForniti {
+            min-height: 200px; /* Ridotta altezza minima */
+            font-family: monospace; font-size: 0.9em; line-height: 1.4;
+    }
+     #prompt-builder-container #prompt_generato { background-color: #f8f9fa; font-family: monospace; font-size: 0.95em; line-height: 1.5; min-height: 400px; border: 1px solid #ced4da; width: 100%; box-sizing: border-box; white-space: pre-wrap; margin-top: 15px; padding: 15px; border-radius: 5px; }
+     #prompt-builder-container h2 { margin-top: 30px; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+     #prompt-builder-container .checkbox-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 5px 15px; margin-top: 5px; }
+     #prompt-builder-container .checkbox-group label { font-weight: normal; display: flex; align-items: center; gap: 5px; margin-bottom: 5px; font-size: 0.95em;}
+     #prompt-builder-container .checkbox-group input[type="checkbox"] { width: auto; margin-right: 5px; }
+     #prompt-builder-container .kpi-forecast-group { padding-left: 15px; margin-top: 10px; border-left: 2px solid #eee; padding-top: 5px; }
+     #prompt-builder-container .kpi-forecast-group.disabled { opacity: 0.5; pointer-events: none; }
+     #prompt-builder-container .kpi-forecast-group h4 { margin-top: 10px; margin-bottom: 8px; font-size: 0.9em; color: #555; font-weight: bold;}
+     #prompt-builder-container .required-label { color: #e43e30; font-weight: bold; font-size: 0.8em; }
+
+     /* Stili UI Selezione Paese */
+     #country-selector-ui { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 10px; margin-bottom: 15px;}
+     #country-selector-ui select, #country-selector-ui input { margin: 0; }
+     #selectedCountriesList { list-style: none; padding: 0; margin-top: 15px; max-height: 180px; overflow-y: auto; border: 1px solid #eee; padding: 10px; border-radius: 4px;}
+     #selectedCountriesList li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; padding: 8px 5px; border-bottom: 1px dashed #eee; font-size: 0.95em; gap: 10px; }
+     #selectedCountriesList li:last-child { border-bottom: none; }
+     #selectedCountriesList .country-name { font-weight: bold; flex-basis: 150px; flex-shrink: 0; }
+     #selectedCountriesList .country-lang-input { padding: 4px 6px; border: 1px solid #ccc; border-radius: 3px; font-size: 0.9em; flex-grow: 1; min-width: 100px; max-width: 200px; }
+     #selectedCountriesList .status-selector { display: inline-flex; gap: 5px; white-space: nowrap; margin-left: auto; }
+     #selectedCountriesList .status-selector label { margin: 0; font-size: 0.9em; cursor: pointer; }
+     #selectedCountriesList .status-selector input[type="radio"] { margin-right: 2px; }
+     #selectedCountriesList .removeCountryBtn { background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; font-size: 0.8em; width: 22px; height: 22px; line-height: 20px; text-align: center; padding: 0; flex-shrink: 0;}
+     #selectedCountriesList .removeCountryBtn:hover { background: #cc0000; }
+     #customCountryInput { display: none; }
+     #addCountryBtn { padding: 10px 15px; font-size:0.9em; height: 40px; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-container"></div>
+  <div class="content">
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>Generatore Prompt: Bozza Mediaplan ADV</h1>
+    </header>
+    <main>
+      <div class="container" id="prompt-builder-container">
+        <form id="promptForm">
+           <h2>Configura la Bozza del Mediaplan</h2>
+           <p style="font-size:0.9em; color:#555; margin-top:-10px; margin-bottom:20px;">Il prompt generato si aggiornerà automaticamente mentre compili i campi.</p>
+
+           <fieldset id="fs-infoGeneraliMedia">
+                <legend>Informazioni Generali Piano</legend>
+                <div class="preset-selector-container">
+                     <label for="preset-infoGeneraliMedia" class="preset-label">Preset:</label>
+                     <select id="preset-infoGeneraliMedia" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                </div>
+                <div class="form-field-group"> <label for="nomePiano">Nome Piano / Campagna: <span class="required-label">*</span></label> <input type="text" id="nomePiano" placeholder="Es. Lancio Prodotto X Q3 2025"> <small>Obbligatorio. Lascia vuoto per suggerimento AI.</small> </div>
+                 <div class="form-field-group"> <label for="clienteProdotto">Cliente / Prodotto: <span class="required-label">*</span></label> <input type="text" id="clienteProdotto" placeholder="Nome cliente o prodotto/servizio"> <small>Obbligatorio. Lascia vuoto per suggerimento AI.</small> </div>
+                 <div class="form-field-group"> <label for="periodoGenerale">Anno Fiscale / Periodo Generale:</label> <input type="text" id="periodoGenerale" placeholder="Es. 2025, H2 2025"> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+                 <div class="form-field-group"> <label for="periodicitaDettaglio">Periodicità Dettaglio Piano: <span class="required-label">*</span></label> <select id="periodicitaDettaglio"> <option value="Mensile" selected>Mensile</option> <option value="Trimestrale (Quarter)">Trimestrale (Quarter)</option> <option value="Giornaliero">Giornaliero (Attenzione: output lunghi)</option> <option value="AI_DECIDE">-- Suggerito da AI --</option> </select> <small>Obbligatorio.</small> </div>
+                 <div class="form-field-group"> <label for="dataInizio">Data Inizio Piano: <span class="required-label">*</span></label> <input type="date" id="dataInizio"> <small>Obbligatorio.</small> </div>
+                 <div class="form-field-group"> <label for="dataFine">Data Fine Piano: <span class="required-label">*</span></label> <input type="date" id="dataFine"> <small>Obbligatorio.</small> </div>
+                 <div class="form-field-group"> <label for="obiettivoGenerale">Obiettivo Generale Piano (SMART): <span class="required-label">*</span></label> <textarea id="obiettivoGenerale" rows="3" placeholder="Es. Aumentare vendite del 15%... Lascia vuoto per suggerimento AI."></textarea> <small>Obbligatorio (o suggerimento AI).</small> </div>
+                 <div class="form-field-group"> <label for="budgetTotale">Budget Totale Approvato (Indicativo): <span class="required-label">*</span></label> <input type="text" id="budgetTotale" placeholder="Es. € 100.000... Lascia vuoto per suggerimento AI."> <small>Obbligatorio (o suggerimento AI).</small> </div>
+                 <div class="form-field-group"> <label for="dipartimentoCliente">Dipartimento Cliente (Budget):</label> <input type="text" id="dipartimentoCliente" placeholder="Es. Marketing, E-commerce"> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+                 <div class="form-field-group"> <label for="progettoCollegato">Progetto / Iniziativa Collegata:</label> <input type="text" id="progettoCollegato" placeholder="Se fa parte di un progetto più ampio"> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+           </fieldset>
+
+           <fieldset id="fs-geoLingua">
+                 <legend>Area Geografica e Lingua</legend>
+                  <div class="preset-selector-container">
+                     <label for="preset-geoLingua" class="preset-label">Preset:</label>
+                     <select id="preset-geoLingua" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                  </div>
+                  <div class="form-field-group">
+                       <label for="countryList">Aggiungi Paese Target: <span class="required-label">*</span></label>
+                       <div id="country-selector-ui">
+                           <select id="countryList">
+                               <option value="">-- Seleziona dalla lista --</option>
+                               <option value="CUSTOM">Altro (Specifica sotto)...</option>
+                           </select>
+                           <input type="text" id="customCountryInput" placeholder="Nome Paese personalizzato">
+                           <button type="button" id="addCountryBtn" class="button">Aggiungi</button>
+                       </div>
+                       <small class="field-description">Seleziona o inserisci paesi. Marca almeno un paese come 'Top'. Modifica la lingua suggerita se necessario.</small>
+                       <ul id="selectedCountriesList"></ul>
+                  </div>
+            </fieldset>
+
+           <fieldset id="fs-targetMedia">
+               <legend>Target Audience</legend>
+                 <div class="preset-selector-container">
+                     <label for="preset-targetMedia" class="preset-label">Preset:</label>
+                     <select id="preset-targetMedia" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                  </div>
+                 <div class="form-field-group"> <label for="targetPrimario">Descrizione Target Primario: <span class="required-label">*</span></label> <textarea id="targetPrimario" rows="4" placeholder="Dettagliare demografia... Lascia vuoto per suggerimento AI."></textarea> <small>Obbligatorio (o suggerimento AI).</small> </div>
+                 <div class="form-field-group"> <label for="targetSecondario">Descrizione Target Secondario:</label> <textarea id="targetSecondario" rows="3" placeholder="Eventuale pubblico secondario"></textarea> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+                 <div class="form-field-group"> <label>Fase/i del Funnel Principale/i: <span class="required-label">*</span></label> <div class="checkbox-group"> <label><input type="checkbox" name="faseFunnel" value="Awareness"> Awareness</label> <label><input type="checkbox" name="faseFunnel" value="Consideration"> Consideration</label> <label><input type="checkbox" name="faseFunnel" value="Conversion"> Conversion</label> <label><input type="checkbox" name="faseFunnel" value="Loyalty/Retention"> Loyalty/Retention</label> </div> <small>Obbligatorio. Seleziona almeno una fase (o l'AI suggerirà).</small> </div>
+           </fieldset>
+
+           <fieldset id="fs-canaliBudget">
+                <legend>Canali Media e Budget</legend>
+                  <div class="preset-selector-container">
+                     <label for="preset-canaliBudget" class="preset-label">Preset:</label>
+                     <select id="preset-canaliBudget" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                  </div>
+                 <div class="form-field-group"> <label>Canali Media Selezionati: <span class="required-label">*</span></label> <div class="checkbox-group"> <label><input type="checkbox" name="canali" value="Google Ads Search"> G Search</label> <label><input type="checkbox" name="canali" value="Google Ads Display/PMax"> G Disp/PMax</label> <label><input type="checkbox" name="canali" value="Google Ads Video/YT"> G Video/YT</label> <label><input type="checkbox" name="canali" value="Meta Ads (FB/IG)"> Meta Ads</label> <label><input type="checkbox" name="canali" value="LinkedIn Ads"> LinkedIn Ads</label> <label><input type="checkbox" name="canali" value="TikTok Ads"> TikTok Ads</label> <label><input type="checkbox" name="canali" value="Pinterest Ads"> Pinterest Ads</label> <label><input type="checkbox" name="canali" value="Programmatic Display/Video"> Programmatic</label> <label><input type="checkbox" name="canali" value="Native Advertising"> Native</label> <label><input type="checkbox" name="canali" value="Influencer Marketing"> Influencer</label> <label><input type="checkbox" name="canali" value="Affiliation"> Affiliation</label> <label><input type="checkbox" name="canali" value="TV (Lineare/CTV)"> TV/CTV</label> <label><input type="checkbox" name="canali" value="Radio"> Radio</label> <label><input type="checkbox" name="canali" value="Stampa"> Stampa</label> <label><input type="checkbox" name="canali" value="OOH/DOOH"> OOH/DOOH</label> </div> <small>Obbligatorio. Seleziona almeno un canale (o l'AI suggerirà un mix).</small> </div>
+                 <div class="form-field-group"> <label for="altriCanali">Altri Canali Specifici:</label> <textarea id="altriCanali" rows="3" placeholder="Elenca altri canali, uno per riga o separati da virgola"></textarea> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+                 <div class="form-field-group"> <label for="allocazioneBudget">Allocazione % Budget / Priorità per Canale: <span class="required-label">*</span></label> <textarea id="allocazioneBudget" rows="4" placeholder="Descrivi qualitativamente o con % indicative... Lascia vuoto per suggerimento AI."></textarea> <small>Obbligatorio (o suggerimento AI).</small> </div>
+           </fieldset>
+
+           <fieldset id="fs-dettagliOperativi">
+                <legend>Dettagli Operativi per Canale</legend>
+                  <div class="preset-selector-container"> <label for="preset-dettagliOperativi" class="preset-label">Preset:</label> <select id="preset-dettagliOperativi" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select> </div>
+                 <div class="form-field-group"> <label for="dettagliSpecificiCanale">Dettagli Specifici per Canale:</label> <textarea id="dettagliSpecificiCanale" rows="8" placeholder="Per i canali selezionati, descrivi dettagli operativi..."></textarea> <small>Opzionale. Lascia vuoto per ignorare o per suggerimento AI.</small> </div>
+           </fieldset>
+
+           <fieldset id="fs-advancedAI">
+                <legend>Istruzioni Avanzate per AI (Super Poteri)</legend>
+                 <div class="preset-selector-container"> <label for="preset-advancedAI" class="preset-label">Preset:</label> <select id="preset-advancedAI" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select> </div>
+                 <div class="form-field-group"> <label class="checkbox-label"><input type="checkbox" id="considerSeasonality"> Considera Stagionalità / Festività</label> <small>Se attivo, l'AI modulerà il piano considerando eventi stagionali o festività.</small> </div>
+                 <div class="form-field-group"> <label class="checkbox-label"><input type="checkbox" id="includeForecast"> Includi Colonne Forecast nel Piano</label> <small>Se attivo, l'AI aggiungerà colonne con stime indicative dei KPI selezionati.</small> <div id="kpiForecastGroup" class="kpi-forecast-group disabled"> <h4>KPI Forecast Media:</h4> <div class="checkbox-group"> <label><input type="checkbox" name="forecastMediaKpi" value="Impression"> Imp</label> <label><input type="checkbox" name="forecastMediaKpi" value="Click"> Click</label> <label><input type="checkbox" name="forecastMediaKpi" value="CTR"> CTR</label> <label><input type="checkbox" name="forecastMediaKpi" value="CPC"> CPC</label> <label><input type="checkbox" name="forecastMediaKpi" value="CPM"> CPM</label> <label><input type="checkbox" name="forecastMediaKpi" value="View Rate"> View Rate</label> </div> <h4>KPI Forecast Obiettivo:</h4> <div class="checkbox-group"> <label><input type="checkbox" name="forecastObjectiveKpi" value="Conversioni"> Conv</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="Transazioni"> Trans</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="Entrate"> Entrate</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="ROAS"> ROAS</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="CPA"> CPA</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="LEADS"> Leads</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="CPL"> CPL</label> <label><input type="checkbox" name="forecastObjectiveKpi" value="Conv.Rate"> CR</label> </div> </div> </div>
+           </fieldset>
+
+            <fieldset id="fs-outputMedia">
+                <legend>Output Desiderato</legend>
+                 <div class="preset-selector-container"> <label for="preset-outputMedia" class="preset-label">Preset:</label> <select id="preset-outputMedia" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select> </div>
+                 <div class="form-field-group"> <label for="formatoOutputPiano">Formato Output Bozza Piano: <span class="required-label">*</span></label> <select id="formatoOutputPiano"> <option value="Tabella Markdown per Canale" selected>Tabella Markdown</option> <option value="Elenco Puntato Dettagliato per Canale">Elenco Puntato</option> <option value="CSV (Testo delimitato da Virgole)">CSV</option> <option value="Testo Semplice (TXT)">Testo Semplice</option> <option value="JSON Strutturato">JSON Strutturato</option> <option value="AI_DECIDE">-- Suggerito da AI --</option> </select> <small>Obbligatorio. Come strutturare l'output. Qualità CSV/JSON varia.</small> </div>
+                 <div class="form-field-group"> <label for="livelloDettaglioOutput">Livello Dettaglio Richiesto: <span class="required-label">*</span></label> <select id="livelloDettaglioOutput"> <option value="Dettagliato per linea/canale" selected>Dettagliato</option> <option value="Alto Livello/Sintetico">Alto Livello</option> <option value="AI_DECIDE">-- Suggerito da AI --</option> </select> <small>Obbligatorio. Quanto dettaglio per linea.</small> </div>
+                 <div class="form-field-group"> <label for="noteAggiuntiveAI">Note Aggiuntive per AI:</label> <textarea id="noteAggiuntiveAI" rows="3" placeholder="Istruzioni particolari, stile, cose da non fare..."></textarea> <small>Opzionale. Lascia vuoto per ignorare.</small> </div>
+            </fieldset>
+
+ </form>
+
+        <fieldset id="fs-savePreset" style="margin-top: 25px; background-color: #f0f0f0;">
+            <legend>Salva Preset Personale</legend>
+            <div class="form-field-group" style="display: flex; flex-direction: row; align-items: flex-end; gap: 10px;">
+                 <div style="flex-grow: 1;">
+                    <label for="newPresetName">Nome per il nuovo Preset:</label>
+                    <input type="text" id="newPresetName" placeholder="Es. Mediaplan Lancio Estivo">
+                 </div>
+                 <button type="button" id="savePresetBtn" class="button" style="height: 40px; flex-shrink: 0;">Salva Preset Corrente</button>
+            </div>
+            <small class="field-description">Salva la configurazione attuale dei campi per riutilizzarla in futuro (verrà memorizzata solo su questo browser).</small>
+        </fieldset>
+        <h2>Prompt Generato per Bozza Mediaplan</h2>
+        <textarea id="prompt_generato" rows="25" readonly></textarea>
+
+        <div class="button-group">
+            <button type="button" id="generaBtn" style="display:none;">Genera Prompt</button>
+            <button type="button" id="copiaBtn">Copia Prompt</button>
+            <button type="button" id="resetBtn">Reset Campi</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="menu.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // --- DATI PAESI E LINGUE (invariato) ---
+    const topCountries = ["Italia", "Stati Uniti", "Regno Unito", "Germania", "Francia", "Spagna", "Canada", "Australia", "Brasile", "Messico", "Giappone", "Cina", "India", "Corea del Sud", "Paesi Bassi", "Svizzera", "Svezia", "Belgio", "Austria", "Portogallo"];
+    const countryLanguageMap = { "Italia": "Italiano", "Stati Uniti": "Inglese", "Regno Unito": "Inglese", "Germania": "Tedesco", "Francia": "Francese", "Spagna": "Spagnolo", "Canada": "Inglese, Francese", "Australia": "Inglese", "Brasile": "Portoghese", "Messico": "Spagnolo", "Giappone": "Giapponese", "Cina": "Cinese Mandarino", "India": "Inglese, Hindi", "Corea del Sud": "Coreano", "Paesi Bassi": "Olandese", "Svizzera": "Tedesco, Francese, Italiano", "Svezia": "Svedese", "Belgio": "Olandese, Francese", "Austria": "Tedesco", "Portogallo": "Portoghese" };
+    let selectedCountryData = [];
+
+    // --- Elementi del Form (invariato) ---
+    const formElements = {
+        nomePiano: document.getElementById('nomePiano'), clienteProdotto: document.getElementById('clienteProdotto'), periodoGenerale: document.getElementById('periodoGenerale'), periodicitaDettaglio: document.getElementById('periodicitaDettaglio'), dataInizio: document.getElementById('dataInizio'), dataFine: document.getElementById('dataFine'), obiettivoGenerale: document.getElementById('obiettivoGenerale'), budgetTotale: document.getElementById('budgetTotale'), dipartimentoCliente: document.getElementById('dipartimentoCliente'), progettoCollegato: document.getElementById('progettoCollegato'),
+        targetPrimario: document.getElementById('targetPrimario'), targetSecondario: document.getElementById('targetSecondario'), faseFunnel: document.querySelectorAll('input[name="faseFunnel"]'),
+        canali: document.querySelectorAll('input[name="canali"]'), altriCanali: document.getElementById('altriCanali'), allocazioneBudget: document.getElementById('allocazioneBudget'),
+        dettagliSpecificiCanale: document.getElementById('dettagliSpecificiCanale'),
+        considerSeasonality: document.getElementById('considerSeasonality'), includeForecast: document.getElementById('includeForecast'), forecastMediaKpi: document.querySelectorAll('input[name="forecastMediaKpi"]'), forecastObjectiveKpi: document.querySelectorAll('input[name="forecastObjectiveKpi"]'),
+        formatoOutputPiano: document.getElementById('formatoOutputPiano'), livelloDettaglioOutput: document.getElementById('livelloDettaglioOutput'), noteAggiuntiveAI: document.getElementById('noteAggiuntiveAI')
+    };
+    // Etichette (invariato)
+    const fieldLabels = {
+        nomePiano: "Nome Piano / Campagna", clienteProdotto: "Cliente / Prodotto", periodoGenerale: "Anno Fiscale / Periodo Generale", periodicitaDettaglio: "Periodicità Dettaglio Piano", dateRange: "Periodo Piano", obiettivoGenerale: "Obiettivo Generale Piano (SMART)", budgetTotale: "Budget Totale Approvato (Indicativo)", dipartimentoCliente: "Dipartimento Cliente (Budget)", progettoCollegato: "Progetto / Iniziativa Collegata",
+        geoLinguaTarget: "Aree Geografiche e Lingue Target",
+        targetPrimario: "Descrizione Target Primario", targetSecondario: "Descrizione Target Secondario", faseFunnel: "Fase/i del Funnel Principale/i", canaliSelezionati: "Canali Media Selezionati", allocazioneBudget: "Allocazione % Budget / Priorità per Canale", dettagliSpecificiCanale: "Dettagli Specifici per Canale", formatoOutputPiano: "Formato Output Bozza Piano", livelloDettaglioOutput: "Livello Dettaglio Richiesto", noteAggiuntiveAI: "Note Aggiuntive per AI"
+    };
+    // Preset Standard (invariato)
+    const builtInPresets = { // Rinominato per chiarezza
+         'fs-infoGeneraliMedia': [ { name: "Lancio Ecomm Q3", id: "ecomQ3", values: { nomePiano: "Lancio E-commerce Q3", clienteProdotto: "[Nome Cliente/Prodotto]", periodicitaDettaglio: "Mensile", obiettivoGenerale: "Generare vendite per €X nel Q3", budgetTotale: "€[Budget]", dipartimentoCliente: "E-commerce" } } ],
+         'fs-geoLingua': [ { name: "Solo Italia", id: "geoIta", values: { countries: [{name: 'Italia', status: 'Top', lang: 'Italiano'}] } }, { name: "Europa ITA/FRA/DE", id: "geoMulti", values: { countries: [{name: 'Italia', status: 'Top', lang: 'Italiano'}, {name: 'Francia', status: 'Secondario', lang: 'Francese'}, {name: 'Germania', status: 'Secondario', lang: 'Tedesco'}] } } ],
+         'fs-targetMedia': [ { name: "Target Performance", id: "targetConv", values: { targetPrimario: "Utenti [Descrizione], interessati a [X, Y], con comportamento d'acquisto online", targetSecondario: "", faseFunnel: ["Consideration", "Conversion"] } } ],
+         'fs-canaliBudget': [ { name: "Mix Performance Search+Meta", id: "mixPerfSM", values: { canali: ["Google Ads Search", "Meta Ads (FB/IG)"], altriCanali: "", allocazioneBudget: "60% Meta, 40% Search, ottimizzare per ROAS" } } ],
+         'fs-dettagliOperativi': [ { name: "Dettagli Ecomm", id: "detailsEcom", values: { dettagliSpecificiCanale: "Meta: ottimizzare per Conversioni (Acquisto), usare formati Catalogo e Advantage+. Search: Campagne per prodotto + Brand Protection." } } ],
+         'fs-advancedAI': [ { name: "Base (No Superpoteri)", id: "advBase", values: { considerSeasonality: false, includeForecast: false } }, { name: "Avanzato con Forecast", id: "advForecast", values: { considerSeasonality: true, includeForecast: true, forecastMediaKpi: ["CTR", "CPC", "CPM"], forecastObjectiveKpi: ["Conversioni", "Entrate", "ROAS"] } } ],
+         'fs-outputMedia': [ { name: "Tabella Dettagliata", id: "outTable", values: { formatoOutputPiano: "Tabella Markdown per Canale", livelloDettaglioOutput: "Dettagliato per linea/canale", noteAggiuntiveAI: ""} } ]
+    };
+    // Elementi UI
+    const promptGeneratoTextarea = document.getElementById('prompt_generato');
+    const copiaBtn = document.getElementById('copiaBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const countryListSelect = document.getElementById('countryList');
+    const customCountryInput = document.getElementById('customCountryInput');
+    const addCountryBtn = document.getElementById('addCountryBtn');
+    const selectedCountriesUl = document.getElementById('selectedCountriesList');
+    // NUOVI Elementi per Salvataggio Preset
+    const newPresetNameInput = document.getElementById('newPresetName');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const localStorageKey = 'userPresets_mediaplan'; // Chiave univoca per localStorage
+
+    // --- Funzioni Helper e Principali ---
+    function getCheckboxValues(name) { const cbs = document.querySelectorAll(`input[name="${name}"]:checked`); return Array.from(cbs).map(cb => cb.value); }
+    function setCheckboxValues(name, valuesArray) { const allCb = document.querySelectorAll(`input[name="${name}"]`); allCb.forEach(cb => { cb.checked = valuesArray ? valuesArray.includes(cb.value) : false; }); if (name === 'includeForecast') { toggleKpiVisibility(); } }
+    function getFieldPromptValue(key, element, isMandatory = false) { if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { const values = getCheckboxValues(element[0].name); if (values.length > 0) { return `**${fieldLabels[key]}:** ${values.join(', ')}\n`; } else if (isMandatory) { return `**${fieldLabels[key]}:** [Nessun Valore - AI Deve Suggerire]\n`; } else { return ""; } } if (element && element.type === 'checkbox') { return ""; } if (key === 'geoLinguaTarget') { return ""; } const value = element && element.value ? element.value.trim() : ''; const label = fieldLabels[key] || key; if (value === 'AI_DECIDE') { return `**${label}:** [AI Deve Suggerire Valore Ottimale]\n`; } else if (value) { return `**${label}:** ${value}\n`; } else if (isMandatory) { return `**${label}:** [Valore Mancante - AI Deve Suggerire]\n`; } else { return ""; } }
+    function populateCountryDropdown() { if (!countryListSelect) return; topCountries.sort().forEach(country => { const option = document.createElement('option'); option.value = country; option.textContent = country; countryListSelect.appendChild(option); }); }
+    function renderSelectedCountries() {
+        if (!selectedCountriesUl) return; selectedCountriesUl.innerHTML = ''; let hasTop = false;
+        selectedCountryData.forEach((country, index) => {
+            const li = document.createElement('li'); const countryNameId = `country_${index}`; const defaultLang = countryLanguageMap[country.name] || ''; const currentLang = country.lang !== undefined ? country.lang : defaultLang;
+            li.innerHTML = `<span class="country-name">${country.name}</span> <input type="text" class="country-lang-input" value="${currentLang}" placeholder="Lingua/e" data-index="${index}" title="Lingua/e per ${country.name}"> <span class="status-selector"> <label><input type="radio" name="${countryNameId}_status" value="Top" ${country.status === 'Top' ? 'checked' : ''} data-index="${index}"> Top</label> <label><input type="radio" name="${countryNameId}_status" value="Secondario" ${country.status === 'Secondario' ? 'checked' : ''} data-index="${index}"> Sec.</label> </span> <button type="button" class="removeCountryBtn" data-index="${index}" title="Rimuovi">&times;</button>`;
+            selectedCountriesUl.appendChild(li); if (country.status === 'Top') hasTop = true;
+        });
+        selectedCountriesUl.querySelectorAll('.removeCountryBtn').forEach(btn => { btn.addEventListener('click', handleRemoveCountry); });
+        selectedCountriesUl.querySelectorAll('input[type="radio"]').forEach(radio => { radio.addEventListener('change', handleCountryStatusChange); });
+        selectedCountriesUl.querySelectorAll('.country-lang-input').forEach(input => { input.addEventListener('input', handleLanguageInputChange); });
+        if (!hasTop && selectedCountryData.length > 0) { selectedCountryData[0].status = 'Top'; renderSelectedCountries(); } else if (selectedCountryData.length === 0) { /* No action needed */ }
+        else { generaPrompt(); }
+    }
+    function handleAddCountry() { let countryToAdd = ''; if (countryListSelect.value === 'CUSTOM') { countryToAdd = customCountryInput.value.trim(); customCountryInput.value = ''; countryListSelect.value = ''; customCountryInput.style.display = 'none'; } else { countryToAdd = countryListSelect.value; countryListSelect.value = ''; } if (countryToAdd && !selectedCountryData.some(c => c.name.toLowerCase() === countryToAdd.toLowerCase())) { const defaultLang = countryLanguageMap[countryToAdd] || ''; selectedCountryData.push({ name: countryToAdd, status: 'Secondario', lang: defaultLang }); renderSelectedCountries(); } else if (countryToAdd) { alert(`Il paese "${countryToAdd}" è già stato aggiunto.`); } }
+    function handleRemoveCountry(event) { const indexToRemove = parseInt(event.target.dataset.index, 10); if (!isNaN(indexToRemove)) { selectedCountryData.splice(indexToRemove, 1); renderSelectedCountries(); } }
+    function handleCountryStatusChange(event) { const indexChanged = parseInt(event.target.dataset.index, 10); const newStatus = event.target.value; if (!isNaN(indexChanged) && selectedCountryData[indexChanged]) { if (newStatus === 'Top') { selectedCountryData = selectedCountryData.map((country, index) => ({ ...country, status: index === indexChanged ? 'Top' : 'Secondario' })); } else { selectedCountryData[indexChanged].status = 'Secondario'; } renderSelectedCountries(); } }
+    function handleLanguageInputChange(event) { const indexChanged = parseInt(event.target.dataset.index, 10); const newLang = event.target.value; if (!isNaN(indexChanged) && selectedCountryData[indexChanged]) { selectedCountryData[indexChanged].lang = newLang; generaPrompt(); } }
+
+    // --- NUOVE FUNZIONI per PRESET UTENTE (localStorage) ---
+    function loadUserPresets() {
+        try {
+            const storedPresets = localStorage.getItem(localStorageKey);
+            return storedPresets ? JSON.parse(storedPresets) : [];
+        } catch (e) {
+            console.error("Errore nel caricamento dei preset utente:", e);
+            return []; // Ritorna array vuoto in caso di errore
+        }
+    }
+
+    function saveUserPresets(presetsArray) {
+        try {
+            localStorage.setItem(localStorageKey, JSON.stringify(presetsArray));
+        } catch (e) {
+            console.error("Errore nel salvataggio dei preset utente:", e);
+            alert("Errore durante il salvataggio dei preset. Spazio esaurito?");
+        }
+    }
+
+    function saveCurrentPreset() {
+        const presetName = newPresetNameInput.value.trim();
+        if (!presetName) {
+            alert("Inserisci un nome per il preset.");
+            return;
+        }
+
+        const userPresets = loadUserPresets();
+
+        // Controlla se il nome esiste già (chiedi conferma per sovrascrivere)
+        const existingPresetIndex = userPresets.findIndex(p => p.name === presetName);
+        if (existingPresetIndex !== -1) {
+            if (!confirm(`Un preset con nome "${presetName}" esiste già. Vuoi sovrascriverlo?`)) {
+                return; // Annulla se l'utente non conferma
+            }
+        }
+
+        // Raccogli i valori correnti del form
+        const currentValues = {};
+        for (const key in formElements) {
+             const element = formElements[key];
+             if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') {
+                 currentValues[key] = getCheckboxValues(element[0].name); // Salva array di valori checkati
+             } else if (element && element.type === 'checkbox') {
+                 currentValues[key] = element.checked; // Salva stato booleano
+             } else if (element) {
+                 currentValues[key] = element.value; // Salva valore
+             }
+        }
+        // Aggiungi lo stato dei paesi
+        currentValues.countries = JSON.parse(JSON.stringify(selectedCountryData)); // Salva copia deep
+
+        const newPreset = { name: presetName, values: currentValues };
+
+        if (existingPresetIndex !== -1) {
+            userPresets[existingPresetIndex] = newPreset; // Sovrascrive
+        } else {
+            userPresets.push(newPreset); // Aggiunge nuovo
+        }
+
+        saveUserPresets(userPresets);
+        populatePresetDropdowns(); // Aggiorna i dropdown
+        newPresetNameInput.value = ''; // Pulisce campo nome
+        alert(`Preset "${presetName}" salvato con successo!`);
+    }
+
+    // --- Funzioni Preset (MODIFICATE per caricare/applicare preset utente) ---
+    function populatePresetDropdowns() {
+        const userPresets = loadUserPresets();
+        const allSelectors = document.querySelectorAll('.preset-selector');
+
+        allSelectors.forEach(selector => {
+            const sectionId = selector.id.replace('preset-', 'fs-'); // Ricava fieldset ID dal select ID
+            const builtInSectionPresets = builtInPresets[sectionId] || [];
+
+            // Rimuove opzioni vecchie (tranne la prima "-- Seleziona Preset --") e optgroup vecchi
+            const existingOptgroups = selector.querySelectorAll('optgroup');
+            existingOptgroups.forEach(og => og.remove());
+            while (selector.options.length > builtInSectionPresets.length + 1) { // +1 per l'opzione vuota iniziale
+                 // Rimuove opzioni aggiunte dinamicamente in precedenza (potrebbe essere migliorato)
+                 if(selector.options[selector.options.length - 1].dataset.isUserPreset || selector.options[selector.options.length - 1].dataset.isBuiltIn) {
+                     selector.remove(selector.options.length - 1);
+                 } else {
+                      break; // Esce se non è un'opzione preset
+                 }
+            }
+             // Pulisce e ripopola i preset standard
+             while (selector.options.length > 1) { selector.remove(1); } // Pulisce tutto tranne la prima
+             builtInSectionPresets.forEach(preset => {
+                 const option = document.createElement('option');
+                 option.value = preset.id;
+                 option.textContent = preset.name;
+                 option.dataset.isBuiltIn = "true"; // Marca come standard
+                 selector.appendChild(option);
+             });
+
+
+            // Aggiunge i preset utente se presenti
+            if (userPresets.length > 0) {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = "Preset Salvati";
+                userPresets.forEach((preset, index) => {
+                    // Verifica se questo preset è rilevante per questa sezione
+                    // (Controllando se ha valori per campi di questo fieldset)
+                    let isRelevant = false;
+                    const fieldsetElement = document.getElementById(sectionId);
+                    if (fieldsetElement) {
+                        const fieldsInSection = Array.from(fieldsetElement.querySelectorAll('input, select, textarea')).map(el => el.id);
+                        isRelevant = Object.keys(preset.values).some(key => fieldsInSection.includes(key) || key === 'countries' && sectionId === 'fs-geoLingua');
+                         // Controllo speciale per 'countries' nel fieldset geoLingua
+                    }
+
+
+                    if(isRelevant) { // Mostra solo preset utente rilevanti per la sezione
+                       const option = document.createElement('option');
+                       // Usa un prefisso + nome per l'ID nel value per distinguerli
+                       option.value = `user_${preset.name}`; // Potrebbe causare problemi se nomi contengono caratteri speciali
+                       option.textContent = preset.name;
+                       option.dataset.isUserPreset = "true"; // Marca come utente
+                       optgroup.appendChild(option);
+                    }
+                });
+                 if (optgroup.children.length > 0) { // Aggiunge optgroup solo se contiene opzioni
+                    selector.appendChild(optgroup);
+                 }
+            }
+        });
+    }
+
+    function applyPreset(sectionId, presetId) {
+        let selectedPresetData = null;
+        let isUserPreset = presetId.startsWith('user_');
+
+        if (isUserPreset) {
+            const presetName = presetId.substring(5); // Rimuove 'user_'
+            const userPresets = loadUserPresets();
+            selectedPresetData = userPresets.find(p => p.name === presetName);
+        } else {
+            const sectionPresets = builtInPresets[sectionId];
+            if (sectionPresets) {
+                selectedPresetData = sectionPresets.find(p => p.id === presetId);
+            }
+        }
+
+        if (!selectedPresetData || !selectedPresetData.values) {
+             console.warn("Preset non trovato o senza valori:", presetId);
+             // Resetta il dropdown se il preset non viene trovato correttamente
+             const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`);
+             if (selector) selector.value = "";
+             return;
+         }
+
+        const fieldset = document.getElementById(sectionId);
+        if (!fieldset) return;
+
+        // Applica i valori (logica aggiornata per gestire TUTTI i campi dai preset utente)
+        const presetValues = selectedPresetData.values;
+
+        for (const fieldId in formElements) {
+            if (presetValues.hasOwnProperty(fieldId)) { // Applica solo se il valore è nel preset
+                 const element = formElements[fieldId];
+                 const valueToApply = presetValues[fieldId];
+
+                if (fieldId === 'countries' && Array.isArray(valueToApply)) {
+                     // Gestione speciale paesi (solo se siamo nel fieldset giusto)
+                     if(sectionId === 'fs-geoLingua') {
+                        selectedCountryData = JSON.parse(JSON.stringify(valueToApply)); // Carica dati paese dal preset
+                        renderSelectedCountries(); // Renderizza la lista aggiornata
+                     }
+                 } else if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') {
+                     if (Array.isArray(valueToApply)) { setCheckboxValues(element[0].name, valueToApply); }
+                 } else if (element && element.type === 'checkbox') {
+                     element.checked = valueToApply;
+                     if(element.id === 'includeForecast') toggleKpiVisibility(); // Aggiorna visibilità KPI
+                 } else if (element) {
+                     element.value = valueToApply;
+                     if (element.tagName === 'SELECT') { element.dispatchEvent(new Event('change')); } // Trigger change per select
+                 }
+            }
+             // Se un campo NON è nel preset utente e siamo in quel fieldset,
+             // non lo modifichiamo (o potremmo resettarlo? Decidiamo di non modificarlo).
+             // Per i preset standard, la logica precedente funzionava perché
+             // i preset erano specifici per fieldset.
+             // Questa logica ora applica tutti i valori trovati nel preset,
+             // indipendentemente dal fieldset selezionato, se il preset è utente.
+             // Questo è probabilmente il comportamento desiderato per un preset globale salvato.
+        }
+
+         // Caso speciale: se applichiamo un preset standard da un fieldset
+         // diverso da quello geo, dobbiamo assicurarci che i paesi non vengano toccati.
+         // E viceversa. La logica attuale lo fa implicitamente perché
+         // i preset standard hanno solo valori per il loro fieldset.
+
+        generaPrompt();
+        const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`);
+        if(selector) selector.value = ""; // Resetta il dropdown
+    }
+
+    // Funzione generaPrompt (invariata rispetto all'ultima versione)
+    function generaPrompt() { /* ... codice generazione prompt ... */
+        let promptFinale = `**PROMPT PER BOZZA MEDIAPLAN ADV**\n\nAgisci come un Media Planner esperto. Basandoti sulle seguenti informazioni, genera una bozza strutturata di un mediaplan pubblicitario. Per i campi obbligatori (*) lasciati vuoti, proponi un valore adeguato al contesto. Ometti completamente i campi opzionali non compilati.\n\n`;
+        let mandatoryFields = ['nomePiano', 'clienteProdotto', 'periodicitaDettaglio', 'dataInizio', 'dataFine', 'obiettivoGenerale', 'budgetTotale', 'geoLinguaTarget', 'targetPrimario', 'faseFunnel', 'canali', 'allocazioneBudget', 'formatoOutputPiano', 'livelloDettaglioOutput'];
+        const dataInizioVal = formElements.dataInizio.value; const dataFineVal = formElements.dataFine.value;
+
+        promptFinale += "**--- CONTESTO E OBIETTIVI ---**\n";
+        for (const key of ['nomePiano', 'clienteProdotto', 'periodoGenerale', 'periodicitaDettaglio']) { if(formElements[key]) { promptFinale += getFieldPromptValue(key, formElements[key], mandatoryFields.includes(key)); }}
+        if (dataInizioVal && dataFineVal) { promptFinale += `**${fieldLabels.dateRange}:** Dal ${dataInizioVal} al ${dataFineVal}\n`;}
+        else if ((!dataInizioVal || !dataFineVal) && mandatoryFields.includes('dataInizio')) { promptFinale += `**${fieldLabels.dateRange}:** [Date Mancanti - AI Deve Suggerire Periodo]\n`;}
+        for (const key of ['obiettivoGenerale', 'budgetTotale', 'dipartimentoCliente', 'progettoCollegato']) { if(formElements[key]) { promptFinale += getFieldPromptValue(key, formElements[key], mandatoryFields.includes(key)); }}
+
+        promptFinale += "\n**--- AREA GEOGRAFICA E LINGUE TARGET ---**\n";
+        if (selectedCountryData.length > 0) { selectedCountryData.forEach(country => { promptFinale += ` - ${country.status}: ${country.name} (Lingua/e: ${country.lang || '[AI Suggerirà]'}) \n`; }); }
+        else { promptFinale += `**${fieldLabels.geoLinguaTarget}:** [Nessun Paese Selezionato - AI Deve Suggerire Area e Lingua Principale]\n`; }
+
+        promptFinale += "\n**--- TARGET AUDIENCE ---**\n";
+        for (const key of ['targetPrimario', 'targetSecondario', 'faseFunnel']) { if(formElements[key]) { promptFinale += getFieldPromptValue(key, formElements[key], mandatoryFields.includes(key) || (formElements[key] instanceof NodeList && mandatoryFields.includes(formElements[key][0].name) ) ); }}
+
+        promptFinale += "\n**--- CANALI MEDIA E BUDGET ---**\n";
+        const canaliSelezionati = getCheckboxValues('canali'); const altriCanaliVal = formElements.altriCanali.value.trim(); const tuttiCanali = [...canaliSelezionati]; if(altriCanaliVal){ const altriParsed = altriCanaliVal.split(/[\n,]+/).map(c => c.trim()).filter(Boolean); tuttiCanali.push(...altriParsed); }
+        if(tuttiCanali.length > 0){ promptFinale += `**${fieldLabels.canaliSelezionati}:** ${tuttiCanali.join(', ')}\n`; }
+        else { promptFinale += `**${fieldLabels.canaliSelezionati}:** [Nessun Canale Selezionato - AI Deve Suggerire Mix Adeguato]\n`; }
+        promptFinale += getFieldPromptValue('allocazioneBudget', formElements.allocazioneBudget, true);
+
+        promptFinale += "\n**--- DETTAGLI OPERATIVI PER CANALE (Indicazioni Generali) ---**\n";
+        promptFinale += getFieldPromptValue('dettagliSpecificiCanale', formElements.dettagliSpecificiCanale, false);
+
+        promptFinale += "\n**--- ISTRUZIONI AVANZATE PER AI ---**\n";
+        let hasAdvancedInstructions = false;
+        if (formElements.considerSeasonality.checked) { promptFinale += `* **Stagionalità:** Modula il piano considerando la stagionalità e le festività rilevanti per ${formElements.clienteProdotto.value || 'il settore/prodotto'}.\n`; hasAdvancedInstructions = true; }
+        if (formElements.includeForecast.checked) {
+            const mediaKPIs = getCheckboxValues('forecastMediaKpi'); const objectiveKPIs = getCheckboxValues('forecastObjectiveKpi');
+            if (mediaKPIs.length > 0 || objectiveKPIs.length > 0) {
+                promptFinale += `* **Forecast:** Includi nel piano colonne separate per il Forecast (${formElements.periodicitaDettaglio.value || 'Mensile'}) stimando:`;
+                if (mediaKPIs.length > 0) promptFinale += `\n    * KPI Media: ${mediaKPIs.join(', ')}`;
+                if (objectiveKPIs.length > 0) promptFinale += `\n    * KPI Obiettivo: ${objectiveKPIs.join(', ')}`;
+                 promptFinale += "\n"; hasAdvancedInstructions = true;
+            } else { promptFinale += `* **Forecast:** Richiesto forecast ma nessun KPI selezionato. Specifica i KPI o chiedi suggerimento all'AI.\n`; hasAdvancedInstructions = true;}
+        }
+        if (!hasAdvancedInstructions) { promptFinale += "* Nessuna istruzione avanzata specificata.\n"; }
+
+         promptFinale += "\n**--- OUTPUT RICHIESTO ---**\n";
+         promptFinale += getFieldPromptValue('formatoOutputPiano', formElements.formatoOutputPiano, true);
+         promptFinale += getFieldPromptValue('livelloDettaglioOutput', formElements.livelloDettaglioOutput, true);
+         promptFinale += getFieldPromptValue('noteAggiuntiveAI', formElements.noteAggiuntiveAI, false);
+
+        promptFinale += `\n---\nGenera la bozza del mediaplan nel formato richiesto (${formElements.formatoOutputPiano.value || 'Tabella Markdown'}), strutturata per canale o linea di attività. Includi le informazioni chiave come periodo, obiettivo specifico, target, tipo media, metodo acquisto e budget indicativo per ogni linea, rispettando le lingue definite per paese. Applica le istruzioni avanzate se specificate. Assicurati che il piano sia coerente con tutti i dati forniti.`;
+        promptGeneratoTextarea.value = promptFinale;
+    }
+    function copiaPrompt() { /* ... codice identico ... */ const testoDaCopiare = promptGeneratoTextarea.value; navigator.clipboard.writeText(testoDaCopiare).then(() => { const t = copiaBtn.textContent; copiaBtn.textContent = 'Copiato!'; copiaBtn.style.backgroundColor = '#28a745'; setTimeout(() => { copiaBtn.textContent = t; copiaBtn.style.backgroundColor = '#e43e30'; }, 2000); }).catch(err => { console.error('Errore copia: ', err); alert('Errore copia testo.'); }); }
+    function resetForm() { /* ... codice identico ... */ const baseValues = { nomePiano: "", clienteProdotto: "", periodoGenerale: "", periodicitaDettaglio: "Mensile", dataInizio: "", dataFine: "", obiettivoGenerale: "", budgetTotale: "", dipartimentoCliente: "", progettoCollegato: "", /* linguaCampagna rimosso */ targetPrimario: "", targetSecondario: "", altriCanali: "", allocazioneBudget: "", dettagliSpecificiCanale: "", considerSeasonality: false, includeForecast: false, formatoOutputPiano: "Tabella Markdown per Canale", livelloDettaglioOutput: "Dettagliato per linea/canale", noteAggiuntiveAI: "" }; for (const key in formElements) { const element = formElements[key]; if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { setCheckboxValues(element[0].name, []); } else if (element && element.type === 'checkbox') { element.checked = baseValues[key] || false; } else if (element) { element.value = baseValues[key] || ''; } } if(formElements.periodicitaDettaglio) formElements.periodicitaDettaglio.value = baseValues.periodicitaDettaglio; if(formElements.formatoOutputPiano) formElements.formatoOutputPiano.value = baseValues.formatoOutputPiano; if(formElements.livelloDettaglioOutput) formElements.livelloDettaglioOutput.value = baseValues.livelloDettaglioOutput; selectedCountryData = []; renderSelectedCountries(); toggleKpiVisibility(); generaPrompt(); }
+    function toggleKpiVisibility() { const fc = document.getElementById('includeForecast'); const kg = document.getElementById('kpiForecastGroup'); if (fc && kg) { if (fc.checked) { kg.classList.remove('disabled'); } else { kg.classList.add('disabled'); } } }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+        populateCountryDropdown(); // Popola paesi prima dei preset
+        populatePresetDropdowns(); // Ora popola preset (inclusi user presets)
+
+        const presetSelectors = document.querySelectorAll('.preset-selector');
+        presetSelectors.forEach(selector => { selector.addEventListener('change', (event) => { const selectedPresetId = event.target.value; const fieldset = event.target.closest('fieldset'); if (fieldset && selectedPresetId) { applyPreset(fieldset.id, selectedPresetId); } else if (fieldset) { /* Utente ha deselezionato? Non fare nulla o resetta sezione? */ selector.value = ""; } }); });
+
+        if(countryListSelect) { countryListSelect.addEventListener('change', () => { customCountryInput.style.display = countryListSelect.value === 'CUSTOM' ? 'block' : 'none'; }); }
+        if(addCountryBtn) { addCountryBtn.addEventListener('click', handleAddCountry); }
+        const forecastCheckbox = document.getElementById('includeForecast'); if (forecastCheckbox) { forecastCheckbox.addEventListener('change', toggleKpiVisibility); } toggleKpiVisibility();
+
+        const form = document.getElementById('promptForm');
+        if (form) {
+            const inputElements = form.querySelectorAll('input:not(#customCountryInput):not([type=radio]), select:not(#countryList):not(.preset-selector), textarea'); // Escludi preset selectors
+             inputElements.forEach(element => { element.addEventListener('input', generaPrompt); });
+             const changeElements = form.querySelectorAll('select:not(#countryList):not(.preset-selector), input[type=date], input[type=checkbox]');
+             changeElements.forEach(element => { element.addEventListener('change', generaPrompt); });
+             selectedCountriesUl.addEventListener('change', (event) => { if (event.target.type === 'radio') generaPrompt(); });
+             selectedCountriesUl.addEventListener('input', (event) => { if (event.target.classList.contains('country-lang-input')) { /* Già gestito da handleLanguageInputChange che chiama generaPrompt */ } });
+        }
+         // Listener per il nuovo bottone Salva Preset
+         if(savePresetBtn) {
+              savePresetBtn.addEventListener('click', saveCurrentPreset);
+         }
+
+        generaPrompt();
+    });
+    copiaBtn.addEventListener('click', copiaPrompt);
+    resetBtn.addEventListener('click', resetForm);
+  </script>
+</body>
+</html>

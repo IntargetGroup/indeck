@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - In:Deck</title>
+  <!-- Stile principale -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome (CDN) per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Contenitore per la sidebar dinamica -->
+  <div class="sidebar-container"></div>
+  
+  <!-- Contenuto principale -->
+  <div class="content">
+    <!-- Header con logo In:Deck e titolo Analytics -->
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>Analytics</h1>
+    </header>
+    <main>
+      <div class="analytics-section">
+        <h2>Analytics</h2>
+        <p>Ecco una rapida panoramica dell'utilizzo dell'HUB:</p>
+        <!-- Grafico 1 -->
+        <iframe width="702" height="371" seamless frameborder="0" scrolling="no" 
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTX5wXT-KJm6dK5150UHIl1OG7XPkcG2zY-7MmY91IfTDILmVl5jXI-5kWjtuYteLKPK-ewiqmy-2He/pubchart?oid=1239497956&amp;format=image">
+        </iframe>
+        <!-- Grafico 2 -->
+        <iframe width="702" height="371" seamless frameborder="0" scrolling="no" 
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTX5wXT-KJm6dK5150UHIl1OG7XPkcG2zY-7MmY91IfTDILmVl5jXI-5kWjtuYteLKPK-ewiqmy-2He/pubchart?oid=681257483&amp;format=image">
+        </iframe>
+      </div>
+    </main>
+  </div>
+  
+  <!-- Includi il file della sidebar e il file script.js -->
+  <script src="menu.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['is_logged']) || $_SESSION['is_logged'] !== true) {
+    header("Location: login.php"); // Modifica "login.php" con il percorso corretto della tua pagina di login
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GAIA | Assistant AI</title>
+  <link rel="stylesheet" href="assistant-style.css">
+  <script defer src="assistant.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="gaia-container">
+    <header>
+      <img src="img-gaia.jpg" alt="Avatar GAIA" class="gaia-avatar"/>
+      <h1>GAIA, il tuo Board Assistant AI</h1>
+      <p>Fai una domanda a GAIA. Riceverai una risposta vocale e testuale.</p>
+    </header>
+
+    <main>
+      <label for="domanda">Domanda</label>
+      <textarea id="domanda" placeholder="Scrivi o registra la tua domanda..."></textarea>
+
+      <div class="controls">
+        <button id="recordBtn">🎤 Avvia registrazione</button>
+        <button id="submitBtn">🚀 Invia a GAIA</button>
+      </div>
+
+      <p id="record-status">Pronto per registrare.</p>
+
+      <audio id="audio-response" controls autoplay style="display:none;"></audio>
+
+      <label for="risposta">Risposta</label>
+      <textarea id="risposta" readonly></textarea>
+    </main>
+
+    <footer>
+      <img src="images/intarget-logo.png" alt="Logo intarget">
+      <span>Powered by Make.com · OpenAI · ElevenLabs</span>
+    </footer>
+  </div>
+</body>
+</html>

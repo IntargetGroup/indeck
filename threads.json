@@ -1,0 +1,49 @@
+[
+    {
+        "id": "6819d98de85b50.17029357",
+        "title": "Test",
+        "body": "Thread di test",
+        "author": "daniele.gargini@intarget.net",
+        "date": "06\/05\/2025, 11:42",
+        "replies": [
+            {
+                "author": "andrea.zennaro@intarget.net",
+                "date": "06\/05\/2025, 11:42",
+                "body": "ciao!",
+                "likes": 0
+            }
+        ],
+        "tags": [
+            "test"
+        ],
+        "likes": 1,
+        "pinned": false
+    },
+    {
+        "id": "68109ee257b071.67444516",
+        "title": "Nuovi tool da aggiungere nella tab Discovery",
+        "body": "Vuoi segnalare un tool AI al resto dei nostri colleghi? Inserirlo nella tab discovery? Rispondi a questo Thread e invia la tua segnalazione. Grazie!",
+        "author": "andrea.zennaro@intarget.net",
+        "date": "29\/04\/2025, 11:41",
+        "replies": [],
+        "tags": [
+            "tool",
+            "ai"
+        ],
+        "likes": 0,
+        "pinned": false
+    },
+    {
+        "id": "6810999eac06e7.03838850",
+        "title": "Richieste di nuovi sviluppi",
+        "body": "Cosa vorreste trovare di nuovo in indeck nel prossimo futuro?",
+        "author": "andrea.zennaro@intarget.net",
+        "date": "29\/04\/2025, 11:19",
+        "replies": [],
+        "tags": [
+            "idea"
+        ],
+        "likes": 0,
+        "pinned": false
+    }
+]

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News - In:Deck</title>
+  <!-- Stile principale -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome (CDN) per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Contenitore per la sidebar -->
+  <div class="sidebar-container"></div>
+
+  <!-- Contenuto principale -->
+  <div class="content">
+    <!-- Header con logo In:Deck e titolo News -->
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>News</h1>
+    </header>
+
+    <main>
+      <div class="cards-container">
+        <!-- Le card verranno aggiunte dinamicamente tramite news.js -->
+      </div>
+    </main>
+  </div>
+
+ <!-- Includi il file menu.js per popolare la sidebar -->
+  <script src="menu.js"></script>
+
+  <!-- Include gli script per le card e il principale -->
+  <script src="news.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

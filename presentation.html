@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Genera Presentazione - In:Deck</title>
+  <!-- Stile principale -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome (CDN) per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Sidebar dinamica -->
+  <div class="sidebar-container"></div>
+
+  <!-- Contenuto principale -->
+  <div class="content">
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>Presentation</h1>
+    </header>
+    <main>
+      <!-- Il container qui contiene la card Presentation occupa uno spazio più ampio -->
+      <div class="cards-container presentation-only">
+        <!-- La card verrà inserita dinamicamente da presentation.js -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Includi gli script: menu, card Presentation e script generale -->
+  <script src="menu.js"></script>
+  <script src="presentation.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

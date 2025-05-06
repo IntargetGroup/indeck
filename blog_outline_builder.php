@@ -1,0 +1,235 @@
+<?php $pageTitle = "Generatore Prompt: Scaletta Blog/SEO"; require_once '_header.php'; ?>
+
+    <?php require_once '_sidebar.php'; ?>
+
+    <?php // Colonna Contenuto Principale ?>
+    <div class="col main-content-area px-md-4 py-3">
+
+        <?php require_once '_page_header.php'; ?>
+
+        <main>
+            <div id="prompt-builder-container"> <?php // ID per stili specifici CSS ?>
+                <form id="promptForm">
+                   <h2>Configura la Scaletta per l'Articolo</h2>
+                    <p class="form-text mb-4">Il prompt generato si aggiornerà automaticamente mentre compili i campi.</p>
+
+                    <fieldset id="fs-infoGeneraliBlog">
+                        <legend>Informazioni Principali Articolo</legend>
+                        <div class="preset-selector-container">
+                             <label for="preset-infoGeneraliBlog" class="preset-label">Preset:</label>
+                             <select id="preset-infoGeneraliBlog" class="form-select form-select-sm preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="argomentoBlog" class="form-label">Argomento Generale: <span class="required-label">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="argomentoBlog" value="" placeholder="Il tema principale dell'articolo" required>
+                            <div class="form-text">Obbligatorio (o suggerimento AI se vuoto).</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="keywordPrimaria" class="form-label">Keyword Principale Target: <span class="required-label">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="keywordPrimaria" value="" placeholder="La parola chiave SEO più importante" required>
+                            <div class="form-text">Obbligatorio (o suggerimento AI se vuoto).</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="keywordSecondarie" class="form-label">Keyword Secondarie/Correlate:</label>
+                            <textarea class="form-control form-control-sm" id="keywordSecondarie" rows="2" placeholder="Elenca altre keyword rilevanti, separate da virgola"></textarea>
+                            <div class="form-text">Opzionale. Lascia vuoto per ignorare.</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="targetAudienceBlog" class="form-label">Target Audience:</label>
+                            <input type="text" class="form-control form-control-sm" id="targetAudienceBlog" value="" placeholder="Es. Professionisti SEO, Piccoli imprenditori...">
+                            <div class="form-text">Opzionale (consigliato). Lascia vuoto per ignorare (o suggerimento AI).</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="obiettivoArticolo" class="form-label">Obiettivo dell'Articolo: <span class="required-label">*</span></label>
+                            <select class="form-select form-select-sm" id="obiettivoArticolo" required>
+                                <option value="">-- Seleziona --</option>
+                                <option value="Informare (Cosa/Perché)">Informare (Cosa/Perché)</option>
+                                <option value="Spiegare (Come fare/Tutorial)">Spiegare (Come fare/Tutorial)</option>
+                                <option value="Comparare/Recensire Prodotti/Servizi">Comparare/Recensire Prodotti/Servizi</option>
+                                <option value="Rispondere a Domanda Specifica (FAQ-style)">Rispondere a Domanda Specifica (FAQ-style)</option>
+                                <option value="Listicle (Elenco Puntato)">Listicle (Elenco Puntato)</option>
+                                <option value="Persuadere/Opinione">Persuadere/Opinione</option>
+                                <option value="AI_DECIDE">-- Suggerito da AI --</option>
+                            </select>
+                            <div class="form-text">Obbligatorio. Scegli o chiedi suggerimento AI.</div>
+                        </div>
+                         <div class="mb-3">
+                             <label for="searchIntent" class="form-label">Search Intent Presunto:</label>
+                             <select class="form-select form-select-sm" id="searchIntent">
+                                 <option value="" selected>-- Non specificato (Ignora) --</option>
+                                 <option value="Informazionale">Informazionale</option>
+                                 <option value="Navigazionale">Navigazionale</option>
+                                 <option value="Transazionale">Transazionale</option>
+                                 <option value="Commerciale/Investigativo">Commerciale/Investigativo</option>
+                                 <option value="AI_DECIDE">-- Suggerito da AI --</option>
+                             </select>
+                             <div class="form-text">Opzionale. Scegli, ignora o chiedi suggerimento AI.</div>
+                         </div>
+                    </fieldset>
+
+                    <fieldset id="fs-strutturaContenutoBlog">
+                        <legend>Struttura e Contenuto Specifico</legend>
+                         <div class="preset-selector-container">
+                             <label for="preset-strutturaContenutoBlog" class="preset-label">Preset:</label>
+                             <select id="preset-strutturaContenutoBlog" class="form-select form-select-sm preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="angoloUnico" class="form-label">Angolo/Prospettiva Unica:</label>
+                            <input type="text" class="form-control form-control-sm" id="angoloUnico" value="" placeholder="Cosa rende questo articolo diverso dagli altri?">
+                            <div class="form-text">Opzionale. Lascia vuoto per ignorare.</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="toneOfVoiceBlog" class="form-label">Tone of Voice:</label>
+                             <select class="form-select form-select-sm" id="toneOfVoiceBlog">
+                                 <option value="" selected>-- Non specificato (Ignora) --</option>
+                                 <option value="Divulgativo/Semplice">Divulgativo/Semplice</option>
+                                 <option value="Tecnico/Approfondito">Tecnico/Approfondito</option>
+                                 <option value="Formale/Accademico">Formale/Accademico</option>
+                                 <option value="Conversazionale/Amichevole">Conversazionale/Amichevole</option>
+                                 <option value="Storytelling">Storytelling</option>
+                                  <option value="AI_DECIDE">-- Suggerito da AI --</option>
+                             </select>
+                            <div class="form-text">Opzionale. Scegli, ignora o chiedi suggerimento AI.</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="strutturaLogica" class="form-label">Struttura Logica Proposta:</label>
+                            <textarea class="form-control form-control-sm" id="strutturaLogica" rows="4" placeholder="Suggerisci una sequenza di sezioni (es. Intro, Sezione 1...) o lascia vuoto perché l'AI proponga."></textarea>
+                            <div class="form-text">Opzionale. Lascia vuoto per suggerimento AI sulla struttura.</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="puntiChiave" class="form-label">Punti Chiave/Dati da Includere: <span class="required-label">*</span></label>
+                            <textarea class="form-control form-control-sm" id="puntiChiave" rows="5" placeholder="Elenca fatti, statistiche, sotto-argomenti specifici che devono essere trattati." required></textarea>
+                            <div class="form-text">Obbligatorio (anche breve). L'AI non può inventare il contenuto base.</div>
+                        </div>
+                         <div class="mb-3">
+                            <label for="ctaFinale" class="form-label">CTA Finale:</label>
+                            <input type="text" class="form-control form-control-sm" id="ctaFinale" value="" placeholder="Es. Contattaci per una consulenza, Scarica l'ebook...">
+                            <div class="form-text">Opzionale. Lascia vuoto per ignorare.</div>
+                        </div>
+                         <div class="mb-3">
+                             <label for="lunghezzaStimata" class="form-label">Lunghezza Stimata:</label>
+                             <select class="form-select form-select-sm" id="lunghezzaStimata">
+                                 <option value="" selected>-- Non specificato (Ignora) --</option>
+                                 <option value="Breve (<800 parole)">Breve (&lt;800 parole)</option>
+                                 <option value="Media (800-1500 parole)">Media (800-1500 parole)</option>
+                                 <option value="Lunga (>1500 parole)">Lunga (&gt;1500 parole)</option>
+                                 <option value="AI_DECIDE">-- Suggerito da AI --</option>
+                             </select>
+                             <div class="form-text">Opzionale. Scegli, ignora o chiedi suggerimento AI.</div>
+                         </div>
+                         <div class="mb-3">
+                            <label for="linguaBlog" class="form-label">Lingua: <span class="required-label">*</span></label>
+                            <input type="text" class="form-control form-control-sm" id="linguaBlog" value="Italiano" required>
+                             <div class="form-text">Obbligatorio (o suggerimento AI se vuoto).</div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset id="fs-savePreset" class="mt-4 bg-light border rounded p-3">
+                       <legend class="w-auto px-2 h6 mb-3 fw-semibold">Salva Preset Personale</legend>
+                       <div class="d-flex flex-column flex-sm-row align-items-sm-end gap-2">
+                            <div class="flex-grow-1">
+                               <label for="newPresetName" class="form-label form-label-sm">Nome per il nuovo Preset:</label>
+                               <input type="text" class="form-control form-control-sm" id="newPresetName" placeholder="Es. Scaletta SEO Informativa">
+                            </div>
+                            <button type="button" id="savePresetBtn" class="btn btn-success btn-sm flex-shrink-0">Salva Preset Corrente</button>
+                       </div>
+                       <div class="form-text mt-2">Salva la configurazione attuale per riutilizzarla (memorizzata solo su questo browser).</div>
+                    </fieldset>
+                </form>
+
+                <h2 class="mt-4">Prompt Generato per Scaletta</h2>
+                <textarea id="prompt_generato" class="form-control" rows="20" readonly></textarea>
+
+                <div class="button-group text-end mt-4 pt-3 border-top">
+                    <button type="button" id="resetBtn" class="btn btn-secondary btn-sm me-2">Reset Campi</button>
+                    <button type="button" id="copiaBtn" class="btn btn-primary btn-sm">Copia Prompt</button>
+                </div>
+              </div>
+        </main>
+    </div> <?php // Chiusura colonna main-content-area ?>
+
+<?php require_once '_footer.php'; ?>
+
+<?php // Script specifici per questa pagina ?>
+<script>
+    // Elementi del Form specifici per Blog Outline
+    const formElements = {
+        argomentoBlog: document.getElementById('argomentoBlog'), keywordPrimaria: document.getElementById('keywordPrimaria'), keywordSecondarie: document.getElementById('keywordSecondarie'), targetAudienceBlog: document.getElementById('targetAudienceBlog'), obiettivoArticolo: document.getElementById('obiettivoArticolo'), searchIntent: document.getElementById('searchIntent'), angoloUnico: document.getElementById('angoloUnico'), toneOfVoiceBlog: document.getElementById('toneOfVoiceBlog'), strutturaLogica: document.getElementById('strutturaLogica'), puntiChiave: document.getElementById('puntiChiave'), ctaFinale: document.getElementById('ctaFinale'), lunghezzaStimata: document.getElementById('lunghezzaStimata'), linguaBlog: document.getElementById('linguaBlog')
+    };
+    // Etichette per il Prompt
+    const fieldLabels = {
+        argomentoBlog: "Argomento Generale", keywordPrimaria: "Keyword Principale Target", keywordSecondarie: "Keyword Secondarie/Correlate", targetAudienceBlog: "Target Audience", obiettivoArticolo: "Obiettivo dell'Articolo", searchIntent: "Search Intent Presunto", angoloUnico: "Angolo/Prospettiva Unica", toneOfVoiceBlog: "Tone of Voice", strutturaLogica: "Struttura Logica Proposta", puntiChiave: "Punti Chiave/Dati da Includere", ctaFinale: "CTA Finale", lunghezzaStimata: "Lunghezza Stimata", linguaBlog: "Lingua"
+    };
+    // Preset Standard
+    const builtInPresets = {
+        'fs-infoGeneraliBlog': [ { name: "Articolo SEO Informativo", id: "seoInfo", values: { obiettivoArticolo: "Informare (Cosa/Perché)", searchIntent: "Informazionale" } }, { name: "Tutorial How-To", id: "howtoTuto", values: { obiettivoArticolo: "Spiegare (Come fare/Tutorial)", searchIntent: "Informazionale" } }, { name: "Comparazione Prodotti", id: "prodComp", values: { obiettivoArticolo: "Comparare/Recensire Prodotti/Servizi", searchIntent: "Commerciale/Investigativo" } } ],
+        'fs-strutturaContenutoBlog': [ { name: "Struttura Standard", id: "stdStruct", values: { angoloUnico: "", toneOfVoiceBlog: "Divulgativo/Semplice", strutturaLogica: "Introduzione\nSezione 1 (H2)\n- Sottopunto (H3)\nSezione 2 (H2)\nConclusione", puntiChiave: "[Descrivi qui i punti chiave]", ctaFinale: "", lunghezzaStimata: "Media (800-1500 parole)", linguaBlog: "Italiano" } }, { name: "Listicle Dettagliato", id: "listStruct", values: { angoloUnico: "I X migliori modi per...", toneOfVoiceBlog: "Conversazionale/Amichevole", strutturaLogica: "Introduzione\n1. Primo punto\n2. Secondo punto\n...\nConclusione", puntiChiave: "Assicurarsi che ogni punto sia ben argomentato.", ctaFinale: "Qual è il tuo preferito? Faccelo sapere!", lunghezzaStimata: "Media (800-1500 parole)", linguaBlog: "Italiano" } } ]
+    };
+    // Elementi UI
+    const promptGeneratoTextarea = document.getElementById('prompt_generato');
+    const copiaBtn = document.getElementById('copiaBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const newPresetNameInput = document.getElementById('newPresetName');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const localStorageKey = 'userPresets_blogOutline'; // Chiave localStorage specifica
+
+    // --- Funzioni Helper e Principali ---
+    function getCheckboxValues(name) { const cbs = document.querySelectorAll(`input[name="${name}"]:checked`); return Array.from(cbs).map(cb => cb.value); }
+    function setCheckboxValues(name, valuesArray) { const allCb = document.querySelectorAll(`input[name="${name}"]`); allCb.forEach(cb => { cb.checked = valuesArray ? valuesArray.includes(cb.value) : false; }); }
+    function getFieldPromptValue(key, element, isMandatory = false) {
+         if (element instanceof NodeList) { return ""; } if (element && element.type === 'checkbox') { return ""; }
+         const value = element && element.value ? element.value.trim() : ''; const label = fieldLabels[key] || key;
+         if (value === 'AI_DECIDE') { return `**${label}:** [AI Deve Suggerire Valore Ottimale]\n`; }
+         else if (value) { return `**${label}:** ${value}\n`; }
+         else if (isMandatory) { return `**${label}:** [Valore Mancante - AI Deve Suggerire]\n`; }
+         else { return ""; }
+    }
+    function loadUserPresets() { try { const storedPresets = localStorage.getItem(localStorageKey); return storedPresets ? JSON.parse(storedPresets) : []; } catch (e) { console.error(`Errore caricamento ${localStorageKey}:`, e); return []; } }
+    function saveUserPresets(presetsArray) { try { localStorage.setItem(localStorageKey, JSON.stringify(presetsArray)); } catch (e) { console.error(`Errore salvataggio ${localStorageKey}:`, e); alert("Errore salvataggio preset."); } }
+    function saveCurrentPreset() { const presetName = newPresetNameInput.value.trim(); if (!presetName) { alert("Inserisci un nome per il preset."); return; } const userPresets = loadUserPresets(); const existingPresetIndex = userPresets.findIndex(p => p.name === presetName); if (existingPresetIndex !== -1) { if (!confirm(`Preset "${presetName}" esiste già. Sovrascrivere?`)) { return; } } const currentValues = {}; for (const key in formElements) { const element = formElements[key]; if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { currentValues[key] = getCheckboxValues(element[0].name); } else if (element && element.type === 'checkbox') { currentValues[key] = element.checked; } else if (element) { currentValues[key] = element.value; } } const newPreset = { name: presetName, values: currentValues }; if (existingPresetIndex !== -1) { userPresets[existingPresetIndex] = newPreset; } else { userPresets.push(newPreset); } saveUserPresets(userPresets); populatePresetDropdowns(); newPresetNameInput.value = ''; alert(`Preset "${presetName}" salvato!`); }
+    function populatePresetDropdowns() { const userPresets = loadUserPresets(); const allSelectors = document.querySelectorAll('.preset-selector'); allSelectors.forEach(selector => { const sectionId = selector.id.replace('preset-', 'fs-'); const builtInSectionPresets = builtInPresets[sectionId] || []; const existingOptgroups = selector.querySelectorAll('optgroup'); existingOptgroups.forEach(og => og.remove()); while (selector.options.length > 1) { selector.remove(1); } builtInSectionPresets.forEach(preset => { const option = document.createElement('option'); option.value = preset.id; option.textContent = preset.name; option.dataset.isBuiltIn = "true"; selector.appendChild(option); }); if (userPresets.length > 0) { const optgroup = document.createElement('optgroup'); optgroup.label = "Preset Salvati"; userPresets.forEach((preset) => { let isRelevant = false; const fieldsetElement = document.getElementById(sectionId); if (fieldsetElement) { const fieldsInSection = Array.from(fieldsetElement.querySelectorAll('input, select, textarea')).map(el => el.id); isRelevant = Object.keys(preset.values).some(key => fieldsInSection.includes(key)); } if(isRelevant) { const option = document.createElement('option'); option.value = `user_${preset.name}`; option.textContent = preset.name; option.dataset.isUserPreset = "true"; optgroup.appendChild(option); } }); if (optgroup.children.length > 0) { selector.appendChild(optgroup); } } }); }
+    function applyPreset(sectionId, presetId) { let selectedPresetData = null; let isUserPreset = presetId.startsWith('user_'); if (isUserPreset) { const presetName = presetId.substring(5); const userPresets = loadUserPresets(); selectedPresetData = userPresets.find(p => p.name === presetName); } else { const sectionPresets = builtInPresets[sectionId]; if (sectionPresets) { selectedPresetData = sectionPresets.find(p => p.id === presetId); } } if (!selectedPresetData || !selectedPresetData.values) { console.warn("Preset non trovato:", presetId); const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`); if (selector) selector.value = ""; return; } const fieldset = document.getElementById(sectionId); if (!fieldset) return; const presetValues = selectedPresetData.values; for (const fieldId in formElements) { if (presetValues.hasOwnProperty(fieldId)) { const element = formElements[fieldId]; const valueToApply = presetValues[fieldId]; if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { if (Array.isArray(valueToApply)) { setCheckboxValues(element[0].name, valueToApply); } } else if (element && element.type === 'checkbox') { element.checked = valueToApply; } else if (element) { element.value = valueToApply; if (element.tagName === 'SELECT') { element.dispatchEvent(new Event('change')); } } } } generaPrompt(); const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`); if(selector) selector.value = ""; }
+    // Funzione Genera Prompt (specifica per Blog)
+    function generaPrompt() {
+        let promptFinale = `**PROMPT PER SCALETTA ARTICOLO BLOG/SEO**\n\n`;
+        let mandatoryFieldsBlog = ['argomentoBlog', 'keywordPrimaria', 'obiettivoArticolo', 'puntiChiave', 'linguaBlog'];
+        for (const key in formElements) { const element = formElements[key]; if (!element) continue; const isMandatory = mandatoryFieldsBlog.includes(key); promptFinale += getFieldPromptValue(key, element, isMandatory); }
+        promptFinale += `\n---\nGenera una scaletta (outline) dettagliata per l'articolo descritto, organizzata in sezioni logiche con titoli suggeriti (H2, H3 se appropriato). Per ogni sezione, elenca i punti chiave da trattare basandoti sulle informazioni fornite. Assicurati che la struttura sia coerente con l'obiettivo, il target, la keyword principale e il tone of voice indicati. Includi un titolo principale accattivante per l'articolo.`; // Istruzione finale migliorata
+        promptGeneratoTextarea.value = promptFinale;
+    }
+    // Funzione Copia Prompt (identica)
+    function copiaPrompt() { const testoDaCopiare = promptGeneratoTextarea.value; navigator.clipboard.writeText(testoDaCopiare).then(() => { const t = copiaBtn.textContent; copiaBtn.textContent = 'Copiato!'; copiaBtn.style.backgroundColor = '#28a745'; setTimeout(() => { copiaBtn.textContent = t; copiaBtn.style.backgroundColor = '#e43e30'; }, 2000); }).catch(err => { console.error('Errore copia: ', err); alert('Errore copia testo.'); }); }
+    // Funzione Reset Form (specifica per Blog)
+    function resetForm() {
+        const baseValues = { argomentoBlog: "", keywordPrimaria: "", keywordSecondarie: "", targetAudienceBlog: "", obiettivoArticolo: "", searchIntent: "", angoloUnico: "", toneOfVoiceBlog: "", strutturaLogica: "", puntiChiave: "", ctaFinale: "", lunghezzaStimata: "", linguaBlog: "Italiano" };
+        for (const key in formElements) { const element = formElements[key]; if (element) { element.value = baseValues[key] || ''; } }
+        // Resetta select specifici a vuoto/default
+        if(formElements.obiettivoArticolo) formElements.obiettivoArticolo.value = "";
+        if(formElements.searchIntent) formElements.searchIntent.value = "";
+        if(formElements.toneOfVoiceBlog) formElements.toneOfVoiceBlog.value = "";
+        if(formElements.lunghezzaStimata) formElements.lunghezzaStimata.value = "";
+        generaPrompt();
+    }
+    // Event Listeners (con real-time e save preset)
+    document.addEventListener('DOMContentLoaded', () => {
+        populatePresetDropdowns();
+        const presetSelectors = document.querySelectorAll('.preset-selector'); presetSelectors.forEach(selector => { selector.addEventListener('change', (event) => { const selectedPresetId = event.target.value; const fieldset = event.target.closest('fieldset'); if (fieldset && selectedPresetId) { applyPreset(fieldset.id, selectedPresetId); } else if (fieldset) { selector.value = ""; } }); });
+        // Listener Real-Time
+        const form = document.getElementById('promptForm');
+        if (form) {
+            const inputElements = form.querySelectorAll('input:not(#newPresetName), select:not(.preset-selector), textarea');
+            inputElements.forEach(element => {
+                 const eventType = (element.tagName === 'SELECT' || element.type === 'checkbox' || element.type === 'date') ? 'change' : 'input';
+                 element.addEventListener(eventType, generaPrompt);
+            });
+        }
+        // Listener Bottone Salva
+        if(savePresetBtn) { savePresetBtn.addEventListener('click', saveCurrentPreset); }
+        generaPrompt(); // Genera prompt iniziale
+    });
+    copiaBtn.addEventListener('click', copiaPrompt);
+    resetBtn.addEventListener('click', resetForm);
+  </script>
+
+</body>
+</html>

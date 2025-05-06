@@ -1,0 +1,18 @@
+[
+  {
+    "titolo": "Cos'è la GenAI?",
+    "tipo": "🎥 Video",
+    "categoria": "Intro alla Generative AI",
+    "data": "2025-05-06",
+    "descrizione": "Spiegazione base di cos’è la GenAI con esempi legati al marketing e alla creatività.",
+    "link": "https://www.youtube.com/watch?v=example"
+  },
+  {
+    "titolo": "Prompt Design per l’ADV",
+    "tipo": "📰 Articolo",
+    "categoria": "Prompt Design",
+    "data": "2025-05-04",
+    "descrizione": "Come progettare prompt efficaci per copy pubblicitari con ChatGPT.",
+    "link": "https://medium.com/example"
+  }
+]

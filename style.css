@@ -1,0 +1,483 @@
+/* ============================================= */
+/* style.css - NUOVA VERSIONE PER BOOTSTRAP 5    */
+/* Ispirazione: Intarget + Apple + SimilarWeb   */
+/* ============================================= */
+
+/* === 1. Variabili e Override Bootstrap === */
+:root {
+  /* Colori Brand */
+  --intarget-red: #e43e30;
+  --intarget-red-darker: #c33025;
+  --intarget-red-darkest: #a0281f;
+  /* Colori UI */
+  --sidebar-bg: #1f2327; /* Leggermente più chiaro di bs-dark */
+  --sidebar-link-color: rgba(255, 255, 255, 0.65);
+  --sidebar-link-hover-bg: #343a40;
+  --sidebar-link-hover-color: #fff;
+  --sidebar-link-active-bg: #000;
+  --sidebar-link-active-color: #fff;
+  --sidebar-title-color: #6c757d;
+  --sidebar-divider-color: #495057;
+  --body-bg: #f8f9fa; /* Grigio chiarissimo Bootstrap */
+  --card-border-color: #dee2e6;
+  --card-bg: #ffffff;
+  --text-muted: #6c757d;
+  --font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Override Variabili Colore Bootstrap */
+  --bs-primary: var(--intarget-red);
+  --bs-primary-rgb: 228, 62, 48;
+  --bs-primary-text-emphasis: var(--intarget-red-darker);
+  --bs-primary-bg-subtle: #fcece9;
+  --bs-primary-border-subtle: #f8c4bb;
+  --bs-secondary: #6c757d; /* Grigio Bootstrap come secondario */
+  --bs-secondary-rgb: 108, 117, 125;
+  --bs-link-color-rgb: var(--bs-primary-rgb);
+  --bs-link-hover-color-rgb: 195, 48, 37; /* Calcolato da --intarget-red-darker */
+  --bs-body-bg: var(--body-bg);
+  --bs-body-color: #212529;
+  --bs-secondary-color: #6c757d;
+  --bs-border-color: var(--card-border-color);
+  --bs-border-radius: 0.375rem; /* Default Bootstrap */
+  --bs-border-radius-lg: 0.5rem; /* Angoli più arrotondati per elementi grandi */
+  --bs-border-radius-sm: 0.25rem;
+  --bs-box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, .075);
+  --bs-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .1); /* Ombra leggermente più morbida */
+  --bs-box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, .125);
+  /* Font (Opzionale - Importa 'Inter' nel _header.php) */
+  /* --bs-body-font-family: 'Inter', var(--bs-font-sans-serif); */
+  /* --bs-body-font-weight: 400; */
+  /* --bs-body-line-height: 1.6; */
+}
+
+/* === 2. Impostazioni Globali e Reset Minimi === */
+body {
+  font-family: var(--bs-font-sans-serif);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-size: 16px; /* Base font size */
+  -webkit-font-smoothing: antialiased; /* Migliora resa font */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Link globali */
+a {
+  transition: color 0.15s ease-in-out;
+}
+
+/* Migliora leggibilità lead */
+.lead {
+  font-size: 1.1rem;
+  font-weight: 300; /* Più leggero */
+}
+
+/* Stile per etichetta obbligatorio */
+.required-label {
+  color: var(--intarget-red);
+  font-weight: bold;
+  font-size: 0.8em;
+  margin-left: 2px;
+}
+
+/* === 3. Layout Principale (Sidebar + Content) === */
+/*container-fluid e row sono nel template PHP */
+.sidebar-wrapper {
+  background-color: var(--sidebar-bg);
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .15); /* Ombra interna più scura */
+  padding-bottom: 1rem !important;
+  position: sticky; /* Rende la sidebar "sticky" allo scroll */
+  top: 0;
+  height: 100vh;
+  overflow-y: auto; /* Scroll solo per la sidebar */
+}
+.main-content-area {
+  background-color: #fff;
+  min-height: 100vh;
+  padding: 2rem 2.5rem !important; /* Padding generoso */
+}
+@media (max-width: 767.98px) {
+   .main-content-area { padding: 1rem 1.25rem !important; }
+   /* Gestione sidebar su mobile: potresti usare Offcanvas di Bootstrap
+      o semplicemente farla collassare / diventare una topbar */
+   .sidebar-wrapper {
+       position: static; height: auto; min-height: auto; box-shadow: none;
+   }
+}
+
+/* === 4. Stili Sidebar Custom === */
+.sidebar-header { margin-bottom: 1.5rem; text-align: center; }
+.sidebar-header .intarget-logo { height: 35px; max-width: 85%; }
+.sidebar-title { color: rgba(255, 255, 255, 0.8); font-weight: 600; opacity: 0.9; font-size: 1.1rem; }
+
+.sidebar-wrapper .nav-pills .nav-link {
+  color: var(--sidebar-link-color);
+  padding: 0.7rem 1rem;
+  border-left: 4px solid transparent;
+  transition: background-color 0.15s ease-in-out, color 0.15s ease-in-out, border-left-color 0.15s ease-in-out;
+  white-space: nowrap; border-radius: 0; font-size: 0.9rem;
+}
+.sidebar-wrapper .nav-pills .nav-link i.fas,
+.sidebar-wrapper .nav-pills .nav-link i.far {
+  width: 1.4em; text-align: center; margin-right: 0.7rem; font-size: 1em;
+  flex-shrink: 0; opacity: 0.7; transition: opacity 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.sidebar-wrapper .nav-pills .nav-link:not(.disabled-menu):hover {
+  background-color: var(--sidebar-link-hover-bg); color: var(--sidebar-link-hover-color);
+}
+.sidebar-wrapper .nav-pills .nav-link:not(.disabled-menu):hover i { opacity: 1; }
+.sidebar-wrapper .nav-pills .nav-link.active {
+  background-color: var(--sidebar-link-active-bg); color: var(--sidebar-link-active-color);
+  font-weight: 600; border-left-color: var(--intarget-red);
+}
+.sidebar-wrapper .nav-pills .nav-link.active i { color: var(--intarget-red); opacity: 1; }
+.sidebar-wrapper .disabled-menu { color: #6c757d !important; cursor: not-allowed; opacity: 0.6; }
+.sidebar-wrapper .disabled-menu:hover { background-color: transparent !important; color: #6c757d !important; }
+.sidebar-wrapper .disabled-menu .in-progress { font-size: 0.8em; color: #6c757d; margin-left: auto; padding-left: 5px; }
+.sidebar-wrapper .nav-item-divider {
+  color: var(--sidebar-title-color); font-weight: 700; text-transform: uppercase;
+  font-size: 0.65em; letter-spacing: 0.08em; padding: 1rem 1rem 0.5rem 1rem;
+  margin-top: 1rem; border-bottom: 1px solid var(--sidebar-divider-color); cursor: default; width: 100%;
+}
+.sidebar-wrapper .nav-item-divider:first-of-type { margin-top: 0.5rem; }
+.sidebar-footer { border-top: 1px solid var(--sidebar-divider-color); font-size: 0.8rem; padding-top: 0.75rem !important; }
+.sidebar-footer a:hover span { text-decoration: underline; }
+.sidebar-footer .user-email { word-break: break-all; color: var(--sidebar-link-color); opacity: 0.8;}
+.sidebar-footer i.fa-user-circle { opacity: 0.8; }
+
+/* === 5. Stili Header Pagina === */
+/* Usa classi Bootstrap nell'HTML: d-flex align-items-center pb-3 mb-4 border-bottom */
+header .in-deck-logo { height: 600px; }
+header h1.h3 { font-weight: 600; color: #343a40; }
+
+/* === 6. Stili Componenti Comuni (Card, Form) === */
+.card {
+    border-width: 1px;
+    box-shadow: var(--bs-box-shadow-sm); /* Ombra standard leggera */
+    border-color: var(--bs-border-color);
+    border-radius: var(--bs-border-radius-lg); /* Angoli più arrotondati */
+}
+.card:hover {
+    box-shadow: var(--bs-box-shadow); /* Ombra leggermente più pronunciata su hover */
+}
+.card-header {
+    padding: 0.85rem 1.25rem;
+    background-color: var(--bs-tertiary-bg); /* Sfondo grigio molto chiaro */
+    border-bottom: 1px solid var(--bs-border-color);
+    font-weight: 600; /* Header card semibold */
+}
+.card-title {
+    color: var(--bs-body-color); /* Titolo card scuro di default */
+    font-weight: 600;
+    font-size: 1.1rem; /* Dimensione titolo card */
+}
+.card-title i { /* Icona vicino al titolo card */
+    color: var(--intarget-red);
+    opacity: 0.8;
+    font-size: 0.9em;
+}
+.card-text {
+    font-size: 0.95rem; /* Testo card leggibile */
+    color: var(--bs-secondary-color); /* Grigio per testo descrittivo */
+}
+.card .btn { /* Stile bottone nelle card */
+    font-size: 0.85rem; /* Bottone più piccolo */
+    padding: 0.4rem 1rem;
+}
+
+/* Form */
+.form-label {
+    font-weight: 600;
+    font-size: 0.85rem; /* Label più piccola */
+    margin-bottom: 0.3rem;
+    color: #495057;
+}
+.form-control, .form-select {
+    border-radius: 0.3rem;
+    border-color: #ced4da;
+    padding: 0.6rem 0.9rem; /* Padding input/select */
+    font-size: 0.95rem; /* Testo input leggermente più piccolo */
+}
+.form-control::placeholder { color: #adb5bd; opacity: 1; }
+textarea.form-control { min-height: 100px; line-height: 1.6; }
+.form-text { font-size: 0.8rem; color: var(--text-muted); line-height: 1.4; margin-top: 0.3rem; }
+fieldset {
+    border: none; padding: 1.5rem 0; margin: 0 0 1.5rem 0;
+    border-top: 1px solid var(--bs-border-color); background-color: transparent;
+}
+fieldset:first-of-type { border-top: none; padding-top: 0.5rem; }
+legend {
+  font-weight: 600; color: #343a40; padding: 0; font-size: 1.1rem;
+  margin-bottom: 1.5rem; float: none; width: auto;
+}
+/* Stile per form-check più pulito */
+.form-check { padding-left: 0; }
+.form-check .form-check-input { float: none; margin-left: 0; margin-right: 0.6em;}
+.form-check .form-check-label { font-weight: normal; }
+
+
+/* === 7. Stili Specifici Prompt Overview === */
+/* Usa le classi .card, .row, .col-* nell'HTML */
+.prompt-overview-intro { font-size: 1.1rem; margin-bottom: 2.5rem; font-weight: 300; }
+
+.hall-of-fame {
+    background-color: rgba(var(--bs-warning-rgb), 0.08); /* Sfondo giallo molto tenue */
+    border: 1px solid rgba(var(--bs-warning-rgb), 0.3);
+    border-radius: var(--bs-border-radius-lg);
+    padding: 1.5rem 2rem; margin-bottom: 3rem; position: relative; overflow: hidden;
+}
+.hall-of-fame h2 {
+    color: #b8860b; /* Oro scuro */ margin-top: 0; margin-bottom: 1.5rem;
+    border-bottom: 2px solid rgba(var(--bs-warning-rgb), 0.4); display: inline-flex;
+    align-items: center; gap: 10px; padding-bottom: 0.5rem; font-size: 1.15rem; /* Più piccolo */
+    font-weight: 700; letter-spacing: 0.03em;
+}
+.hall-of-fame h2 i.fa-trophy { color: #ffc107;}
+.hall-of-fame .winner-card.card {
+    border-color: #ffc107; box-shadow: var(--bs-box-shadow); background-color: var(--card-bg);
+}
+.winner-ribbon span {
+    background-color: #ffc107; color: #493804; font-size: 0.8rem; padding: 6px 0;
+}
+.contributor-info { margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed var(--bs-border-color); }
+.contributor-photo { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee; flex-shrink: 0; }
+.contributor-info .creator-details { font-size: 0.8rem; color: var(--text-muted); line-height: 1.3; }
+.contributor-info .creator-details strong { color: #343a40; font-size: 0.9rem; font-weight: 600; }
+/* Card vincitore più enfasi */
+.hall-of-fame .winner-card .card-title { color: #856404; font-weight: 700; } /* Titolo più scuro */
+.hall-of-fame .winner-card .btn { background-color: #ffc107; border-color: #ffc107; color: #333; }
+.hall-of-fame .winner-card .btn:hover { background-color: #e0a800; border-color: #e0a800; color: #333; }
+
+/* Categorie Prompt */
+.prompt-category { margin-bottom: 3rem; }
+.prompt-category h2 {
+    color: #343a40; margin-bottom: 1.5rem; padding-bottom: 0.75rem;
+    border-bottom: 1px solid #dee2e6; font-size: 1.2rem; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+}
+.prompt-category h2 i { color: var(--intarget-red); font-size: 0.9em; }
+.empty-category-placeholder { color: var(--text-muted); font-style: italic; padding: 2rem 1.5rem; border: 1px dashed var(--bs-border-color); border-radius: var(--bs-border-radius); text-align: center; background-color: var(--body-bg); }
+
+
+/* === 8. Stili Specifici Prompt Builder (#prompt-builder-container) === */
+#prompt-builder-container {
+    background-color: #fff; padding: 2rem 2.5rem; border-radius: var(--bs-border-radius-lg); margin-top: 1.5rem; border: 1px solid var(--bs-border-color); box-shadow: var(--bs-box-shadow-sm);
+}
+#prompt-builder-container h2 { /* Titoli fieldset e Output */
+    text-align: left; margin-bottom: 1.5rem; margin-top: 0; font-size: 1.2rem; color: #343a40; padding-bottom: 0.75rem; border-bottom: 1px solid #eee; font-weight: 600;
+}
+#prompt-builder-container h2:last-of-type { margin-top: 2.5rem; }
+
+#prompt-builder-container fieldset { padding: 2rem 0 1rem 0; margin-bottom: 2rem; }
+#prompt-builder-container fieldset:first-of-type { padding-top: 0.5rem; }
+#prompt-builder-container legend { font-weight: 600; color: #343a40; padding: 0; font-size: 1.1em; margin-bottom: 1.5rem; }
+
+#prompt-builder-container .preset-selector-container { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px dashed #eee; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+#prompt-builder-container label.preset-label { margin: 0; font-weight: 600; font-size: 0.85rem; }
+#prompt-builder-container .preset-selector.form-select { max-width: 300px; font-size: 0.85rem; padding: 0.4rem 0.8rem; }
+
+/* Descrizioni campi */
+#prompt-builder-container .form-text { font-size: 0.8rem; }
+
+/* Textarea specifiche */
+#prompt-builder-container textarea#datiGrezzi,
+#prompt-builder-container textarea#datiForniti {
+    min-height: 180px; font-family: monospace !important; font-size: 0.9em !important; line-height: 1.5; background-color: #f1f3f5; border-color: #ced4da;
+}
+#prompt-builder-container #prompt_generato {
+    background-color: #212529; color: #f8f9fa; font-family: monospace; font-size: 0.95em; line-height: 1.6; min-height: 350px; border: 1px solid #495057; width: 100%; box-sizing: border-box; white-space: pre-wrap; margin-top: 0.5rem; padding: 1.25rem; border-radius: var(--bs-border-radius);
+}
+/* Gruppo checkbox */
+#prompt-builder-container .checkbox-group { gap: 0.5rem 1.5rem; }
+#prompt-builder-container .checkbox-group .form-check-label { font-size: 0.9rem; }
+#prompt-builder-container .checkbox-group .form-check-input { margin-top: 0.3em; }
+/* Gruppo KPI Forecast */
+#prompt-builder-container .kpi-forecast-group { padding: 1rem 0 0.5rem 1rem; margin-top: 1rem; border-left: 3px solid #dee2e6; background-color: #f8f9fa; border-radius: 0 var(--bs-border-radius-sm) var(--bs-border-radius-sm) 0;}
+#prompt-builder-container .kpi-forecast-group.disabled { opacity: 0.6; pointer-events: none; background-color: #e9ecef;}
+#prompt-builder-container .kpi-forecast-group h4 { margin-top: 0.5rem; margin-bottom: 0.75rem; font-size: 0.8rem; color: #495057; font-weight: bold; text-transform: uppercase; letter-spacing: 0.03em;}
+/* Selezione Paese */
+#prompt-builder-container #country-selector-ui { gap: 10px; margin-bottom: 1rem;}
+#prompt-builder-container #selectedCountriesList { max-height: 180px; overflow-y: auto; border: 1px solid #dee2e6; padding: 0.75rem; border-radius: var(--bs-border-radius-sm); background-color: #f8f9fa;}
+#prompt-builder-container #selectedCountriesList li { padding: 0.6rem 0.25rem; gap: 10px; }
+#prompt-builder-container #selectedCountriesList .country-name { flex-basis: 120px; font-size: 0.9rem;}
+#prompt-builder-container #selectedCountriesList .country-lang-input { padding: 0.25rem 0.5rem; font-size: 0.85em; max-width: 180px;}
+#prompt-builder-container #selectedCountriesList .status-selector label { font-size: 0.85em; }
+#prompt-builder-container #selectedCountriesList .removeCountryBtn { background: #6c757d; width: 20px; height: 20px; line-height: 18px; opacity: 0.7;}
+#prompt-builder-container #selectedCountriesList .removeCountryBtn:hover { background: var(--bs-danger); opacity: 1; }
+#prompt-builder-container #addCountryBtn { /* Usa .btn .btn-secondary .btn-sm */ }
+/* Sezione Salva Preset */
+#prompt-builder-container #fs-savePreset { background-color: #f0f0f0; border: 1px solid #dee2e6; margin-top: 1.5rem; padding: 1rem 1.5rem;}
+#prompt-builder-container #fs-savePreset legend { font-size: 1em; margin-bottom: 0.75rem; }
+#prompt-builder-container #fs-savePreset .form-field-group label { margin-bottom: 0.2rem; }
+#prompt-builder-container #fs-savePreset small { margin-top: 0.5rem;}
+#prompt-builder-container #fs-savePreset button { /* Usa .btn .btn-success .btn-sm */ }
+/* Gruppo Bottoni fine form */
+#prompt-builder-container .button-group { margin-top: 2.5rem; text-align: right; padding-top: 1.5rem; border-top: 1px solid #eee; }
+#prompt-builder-container .button-group button { /* Usa .btn .btn-* .ms-2 */ }
+
+
+/* === 9. Media Queries (Bootstrap gestisce molto) === */
+@media (max-width: 767.98px) {
+    /* Adattamenti specifici se il responsive di BS non basta */
+   .main-content-area { padding: 1rem 1.25rem !important; }
+   header h1.h3 { font-size: 1.3em; }
+   /* Bottoni builder full width su mobile */
+   #prompt-builder-container .button-group { text-align: center; }
+   #prompt-builder-container .button-group button { display: block; width: 100%; margin: 0.5rem 0 0 0 !important; }
+    /* Layout selezione paese su mobile */
+   #selectedCountriesList li { flex-direction: column; align-items: flex-start; gap: 5px;}
+   #selectedCountriesList .status-selector { margin-left: 0; margin-top: 5px; order: 3; }
+   #selectedCountriesList .country-lang-input { order: 2; max-width: none; width: 100%;}
+   #selectedCountriesList .country-name { order: 1; flex-basis: auto;}
+   #selectedCountriesList .removeCountryBtn { position: absolute; top: 8px; right: 8px; order: 4;}
+   #selectedCountriesList li { position: relative; padding: 0.75rem 35px 0.75rem 0.5rem ;}
+   /* Adatta griglia checkbox */
+   #prompt-builder-container .checkbox-group { grid-template-columns: 1fr; }
+}
+/* ============================================= */
+/* Stili SPECIFICI per Presentation Selectors    */
+/* (Assicurati che non confliggano con BS)     */
+/* ============================================= */
+
+/* Selettore Numero Slide */
+.slides-selector {
+  display: flex;
+  flex-wrap: wrap; /* Permette di andare a capo */
+  align-items: stretch; /* Allunga bottoni uguali */
+  gap: 5px; /* Spazio tra elementi */
+}
+
+.slide-option { /* Stile base bottone/opzione */
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa; /* Grigio chiaro */
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9em;
+  font-weight: 500;
+  text-align: center;
+  flex-grow: 1; /* Fa espandere per riempire spazio */
+  /* Rimuovi width/height fissi se li avevi */
+}
+
+.slide-option:hover {
+  background-color: #e9ecef;
+  border-color: #bbb;
+}
+
+.slide-option.active { /* Stato attivo */
+  background-color: var(--intarget-red); /* Colore primario */
+  border-color: var(--intarget-red-darker);
+  color: white;
+  font-weight: bold;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.slide-option-x { /* Contenitore per 'Altro' */
+  display: flex;
+  align-items: center;
+  border: none; /* Rimuovi bordo contenitore */
+  background: none;
+  padding: 0;
+  flex-grow: 0; /* Non farlo espandere */
+}
+.slide-option-x .slide-option { /* Bottone 'X' */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none; /* Rimuovi bordo destro */
+  flex-grow: 0; /* Non farlo espandere */
+}
+.slide-custom-input { /* Input numerico */
+  width: 60px !important; /* Forza larghezza */
+  text-align: center;
+  border: 1px solid #ccc;
+  border-left: none; /* Rimuovi bordo sinistro */
+  border-radius: 0 0.25rem 0.25rem 0;
+  padding: 0.5rem;
+  font-size: 0.9em;
+  height: auto; /* Altezza automatica */
+  /* Assicurati che erediti stile .form-control-sm se lo usi nell'HTML */
+}
+.slide-option[data-value="custom"].active + .slide-custom-input { /* Evidenzia input se custom è attivo */
+     border-color: var(--intarget-red-darker);
+}
+
+
+/* Selettore Lingua */
+.lingua-selector {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 5px;
+}
+
+.lingua-option {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 1.1em; /* Icone più grandi */
+  font-weight: 500;
+  text-align: center;
+  min-width: 45px; /* Larghezza minima */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.lingua-option:hover {
+  background-color: #e9ecef;
+  border-color: #bbb;
+}
+
+.lingua-option.active {
+  background-color: var(--intarget-red);
+  border-color: var(--intarget-red-darker);
+  color: white;
+  font-weight: bold;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.lingua-option-x {
+  display: flex;
+  align-items: center;
+  border: none;
+  background: none;
+  padding: 0;
+  flex-grow: 0;
+}
+.lingua-option-x .lingua-option {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+   flex-grow: 0;
+}
+.lingua-custom-input {
+  width: 70px !important;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 0.25rem 0.25rem 0;
+  padding: 0.5rem;
+  font-size: 0.9em;
+  height: auto;
+  /* Assicurati che erediti stile .form-control-sm se lo usi nell'HTML */
+}
+.lingua-option[data-value="custom"].active + .lingua-custom-input {
+     border-color: var(--intarget-red-darker);
+}
+/* Logo agenti social: dimensione fissa e proporzioni corrette */
+.platform-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+}
+/* Spaziatura verticale fra tutte le card */
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* distanza tra una card e l’altra */
+}

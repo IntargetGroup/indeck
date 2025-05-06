@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Repository - In:Deck</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" />
+</head>
+<body>
+  <div class="sidebar-container"></div>
+  <div class="content">
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo" />
+      <h1>Prompt Repository</h1>
+    </header>
+    <main>
+
+      <!-- Prompt vincente -->
+      <section class="futuristic">
+        <div class="card-header"><h3>🆕 Ultimo Prompt Inserito</h3></div>
+        <div class="card-body" id="latest-prompt"></div>
+      </section>
+
+      <!-- Archivio per categorie -->
+      <section class="futuristic">
+        <div class="card-header"><h3>📚 Esplora i Prompt per Categoria</h3></div>
+        <div class="card-body" id="prompt-categories"></div>
+      </section>
+
+      <!-- Brief settimanale -->
+      <section class="futuristic">
+        <div class="card-header"><h3>📌 Brief della Settimana</h3></div>
+        <div class="card-body">
+          <div class="brief-box">
+            <strong>Obiettivo:</strong> Generare un prompt che consenta di creare un benchmark competitivo per il KPI "Costo per lead (CPL)" nel settore abbigliamento di fascia alta in Italia.<br><br>
+            Il prompt deve guidare l’AI a individuare: 1) fonti affidabili, 2) competitor rilevanti, 3) metriche confrontabili e attualizzate. L’output deve essere presentato sotto forma di infografica comparativa con dati tabellari, valori medi, e insight visivi.
+          </div>
+          <div class="brief-box">
+            <strong>Prompt da battere:</strong><br>
+            Crea un'infografica comparativa per il KPI "Costo per Lead (CPL)" nel settore abbigliamento di fascia alta in Italia. Il target è un marketing manager di un brand premium. Inserisci almeno 3 competitor italiani. Per ognuno, indica: 1) Canale di acquisizione principale, 2) CPL stimato medio (con fonte), 3) Range mensile. Visualizza i dati con barre orizzontali su sfondo chiaro. Colori: #e43e30 per il brand, nero per testo, grigio per riferimenti. Titolo grande in alto, call-to-action finale in basso. Font: Lato. Nessuna immagine, solo dati.
+          </div>
+        </div>
+      </section>
+
+      <!-- Form invio -->
+      <section class="futuristic">
+        <div class="card-header"><h3>✍️ Proponi un tuo Prompt</h3></div>
+        <div class="card-body">
+          <form id="promptForm">
+            <div class="form-group">
+              <label>Testo del Prompt da proporre (esempio da battere)</label>
+              <textarea id="prompt-text" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+              <label>Titolo Prompt*</label>
+              <input type="text" id="prompt-title" required />
+            </div>
+            <div class="form-group">
+              <label>Categoria*</label>
+              <select id="prompt-category" required>
+                <option>Infografiche</option>
+                <option>Ricerche e Benchmark</option>
+                <option>Presentazioni e Deck</option>
+                <option>Copywriting & Tone of Voice</option>
+                <option>SEO e Analisi Semantica</option>
+                <option>Social Media & Format</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Nome Autore*</label>
+              <input type="text" id="prompt-author" required />
+            </div>
+            <div class="form-group">
+              <label>Ruolo*</label>
+              <input type="text" id="prompt-role" required />
+            </div>
+            <button type="submit">Invia il tuo Prompt</button>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="menu.js"></script>
+  <script src="prompt-repository.js"></script>
+</body>
+</html>
+

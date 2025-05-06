@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Social - In:Deck</title>
+  <!-- Stile principale -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome (CDN) per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Contenitore per la sidebar -->
+  <div class="sidebar-container"></div>
+
+  <!-- Contenuto principale -->
+  <div class="content">
+    <!-- Header con logo In:Deck e titolo Social -->
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>Social</h1>
+    </header>
+
+    <main>
+      <!-- Container per le card dinamiche -->
+      <div class="cards-container">
+        <!-- Le card saranno aggiunte tramite JS (youtube.js, reddit.js, tiktok.js, instagram.js) -->
+      </div>
+    </main>
+  </div>
+
+ <!-- Includi il file menu.js per popolare la sidebar -->
+  <script src="menu.js"></script>
+
+  <!-- Includi gli script per le card social -->
+  <script src="youtube.js"></script>
+  <script src="reddit.js"></script>
+  <script src="tiktok.js"></script>
+  <script src="instagram.js"></script>
+  <!-- Script principale -->
+  <script src="script.js"></script>
+</body>
+</html>

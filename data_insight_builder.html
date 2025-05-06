@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generatore Prompt: Insight da Report - In:Deck</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* Stili specifici minimi */
+    #prompt-builder-container textarea#datiForniti { min-height: 250px; font-family: monospace; font-size: 0.9em; line-height: 1.4;}
+    #prompt-builder-container #prompt_generato { background-color: #f8f9fa; font-family: monospace; font-size: 0.95em; line-height: 1.5; min-height: 300px; border: 1px solid #ced4da; width: 100%; box-sizing: border-box; white-space: pre-wrap; margin-top: 15px; padding: 15px; border-radius: 5px; }
+    #prompt-builder-container h2 { margin-top: 30px; margin-bottom: 5px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+    #prompt-builder-container .required-label { color: #e43e30; font-weight: bold; font-size: 0.8em; }
+  </style>
+</head>
+<body>
+  <div class="sidebar-container"></div>
+  <div class="content">
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+      <h1>Generatore Prompt: Insight da Report</h1>
+    </header>
+    <main>
+      <div class="container" id="prompt-builder-container">
+        <form id="promptForm">
+           <h2>Configura l'Analisi Dati</h2>
+            <p style="font-size:0.9em; color:#555; margin-top:-10px; margin-bottom:20px;">Il prompt generato si aggiornerà automaticamente mentre compili i campi.</p>
+
+           <fieldset id="fs-infoGeneraliDati">
+                <legend>Contesto dell'Analisi</legend>
+                 <div class="preset-selector-container">
+                     <label for="preset-infoGeneraliDati" class="preset-label">Preset:</label>
+                     <select id="preset-infoGeneraliDati" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                  </div>
+                  <div class="form-field-group">
+                     <label for="tipoReportDati">Tipo di Report/Dati: <span class="required-label">*</span></label>
+                     <input type="text" id="tipoReportDati" value="" placeholder="Es. Report Mensile GA4, Performance Campagna Meta...">
+                     <small class="field-description">Obbligatorio (o suggerimento AI se vuoto). Specifica la natura dei dati.</small>
+                 </div>
+                 <div class="form-field-group">
+                     <label for="periodoAnalizzato">Periodo Analizzato: <span class="required-label">*</span></label>
+                     <input type="text" id="periodoAnalizzato" value="" placeholder="Es. Marzo 2025 vs Febbraio 2025, Q1 2025...">
+                     <small class="field-description">Obbligatorio (o suggerimento AI se vuoto). Intervallo temporale.</small>
+                 </div>
+                 <div class="form-field-group">
+                     <label for="obiettivoAnalisi">Obiettivo dell'Analisi: <span class="required-label">*</span></label>
+                      <input type="text" id="obiettivoAnalisi" value="" placeholder="Es. Identificare trend, Trovare cause performance...">
+                     <small class="field-description">Obbligatorio (o suggerimento AI se vuoto). Cosa vuoi scoprire?</small>
+                 </div>
+                 <div class="form-field-group">
+                     <label for="targetAudienceReport">Target Audience del Riassunto/Insight:</label>
+                     <input type="text" id="targetAudienceReport" value="" placeholder="Es. Cliente, Manager Interno, Team Operativo">
+                     <small class="field-description">Opzionale. Lascia vuoto per ignorare.</small>
+                 </div>
+            </fieldset>
+
+            <fieldset id="fs-datiSpecifici">
+                <legend>Dati e Focus Analisi</legend>
+                 <div class="preset-selector-container">
+                     <label for="preset-datiSpecifici" class="preset-label">Preset:</label>
+                     <select id="preset-datiSpecifici" class="preset-selector"> <option value="">-- Seleziona Preset --</option> </select>
+                  </div>
+                 <div class="form-field-group">
+                     <label for="metricheChiave">Metriche Chiave Incluse/Da Focalizzare:</label>
+                     <textarea id="metricheChiave" rows="3" placeholder="Es. Sessioni, Conversion Rate, CTR, CPA, Engagement Rate..."></textarea>
+                     <small class="field-description">Opzionale (ma consigliato). Su quali metriche concentrarsi?</small>
+                 </div>
+                 <div class="form-field-group">
+                     <label for="datiForniti">Dati Forniti (incollare o descrivere): <span class="required-label">*</span></label>
+                     <textarea id="datiForniti" rows="15" placeholder="Incolla tabelle semplici, elenchi di metriche con valori, o descrivi i dati principali e le loro variazioni..."></textarea>
+                     <small class="field-description">Obbligatorio. Fornisci i dati o una descrizione dettagliata. L'AI non può inventarli.</small>
+                 </div>
+                 <div class="form-field-group">
+                     <label for="domandeSpecifiche">Domande Specifiche a Cui Rispondere:</label>
+                     <textarea id="domandeSpecifiche" rows="3" placeholder="Es. Perché il traffico da X è calato? Quale campagna ha generato più lead?"></textarea>
+                     <small class="field-description">Opzionale. Lascia vuoto per ignorare.</small>
+                 </div>
+                  <div class="form-field-group">
+                     <label for="formatoOutputDati">Formato Output Desiderato: <span class="required-label">*</span></label>
+                     <select id="formatoOutputDati">
+                         <option value="">-- Seleziona --</option>
+                         <option value="Punti Elenco Insight Chiave" selected>Punti Elenco Insight Chiave</option>
+                         <option value="Paragrafo Riassuntivo Esecutivo">Paragrafo Riassuntivo Esecutivo</option>
+                         <option value="Analisi Trend Principali">Analisi Trend Principali</option>
+                         <option value="Prossimi Passi/Raccomandazioni Basate sui Dati">Prossimi Passi/Raccomandazioni</option>
+                         <option value="Analisi SWOT basata sui dati">Analisi SWOT basata sui dati</option>
+                         <option value="AI_DECIDE">-- Suggerito da AI --</option>
+                     </select>
+                     <small class="field-description">Obbligatorio. Come vuoi che vengano presentati i risultati?</small>
+                 </div>
+                  <div class="form-field-group">
+                    <label for="linguaReport">Lingua: <span class="required-label">*</span></label>
+                    <input type="text" id="linguaReport" value="Italiano">
+                     <small class="field-description">Obbligatorio (o suggerimento AI se vuoto).</small>
+                 </div>
+            </fieldset>
+
+            {/* Sezione Salvataggio Preset Utente */}
+            <fieldset id="fs-savePreset" style="margin-top: 25px; background-color: #f0f0f0;">
+               <legend>Salva Preset Personale</legend>
+               <div class="form-field-group" style="display: flex; flex-direction: row; align-items: flex-end; gap: 10px;">
+                    <div style="flex-grow: 1;"> <label for="newPresetName">Nome per il nuovo Preset:</label> <input type="text" id="newPresetName" placeholder="Es. Analisi GA4 Mensile"> </div>
+                    <button type="button" id="savePresetBtn" class="button" style="height: 40px; flex-shrink: 0;">Salva Preset Corrente</button>
+               </div>
+               <small class="field-description">Salva la configurazione attuale dei campi per riutilizzarla (memorizzata solo su questo browser).</small>
+            </fieldset>
+        </form>
+
+        <h2>Prompt Generato per Analisi Dati</h2>
+        <textarea id="prompt_generato" rows="15" readonly></textarea>
+
+        <div class="button-group">
+            <button type="button" id="generaBtn" style="display:none;">Genera Prompt</button>
+            <button type="button" id="copiaBtn">Copia Prompt</button>
+            <button type="button" id="resetBtn">Reset Campi</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="menu.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Elementi del Form specifici per Data Insight
+    const formElements = {
+        tipoReportDati: document.getElementById('tipoReportDati'), periodoAnalizzato: document.getElementById('periodoAnalizzato'), obiettivoAnalisi: document.getElementById('obiettivoAnalisi'), targetAudienceReport: document.getElementById('targetAudienceReport'), metricheChiave: document.getElementById('metricheChiave'), datiForniti: document.getElementById('datiForniti'), domandeSpecifiche: document.getElementById('domandeSpecifiche'), formatoOutputDati: document.getElementById('formatoOutputDati'), linguaReport: document.getElementById('linguaReport')
+    };
+    // Etichette per il Prompt
+    const fieldLabels = {
+        tipoReportDati: "Tipo di Report/Dati", periodoAnalizzato: "Periodo Analizzato", obiettivoAnalisi: "Obiettivo dell'Analisi", targetAudienceReport: "Target Audience del Riassunto/Insight", metricheChiave: "Metriche Chiave Incluse/Da Focalizzare", datiForniti: "Dati Forniti", domandeSpecifiche: "Domande Specifiche a Cui Rispondere", formatoOutputDati: "Formato Output Desiderato", linguaReport: "Lingua"
+    };
+    // Preset Standard
+    const builtInPresets = {
+        'fs-infoGeneraliDati': [ { name: "Sintesi Mensile GA Cliente", id: "gaSynthClient", values: { tipoReportDati: "Report Mensile Google Analytics 4", periodoAnalizzato: "[Mese Corrente] vs [Mese Precedente]", obiettivoAnalisi: "Riassumere performance chiave e identificare variazioni significative per il cliente.", targetAudienceReport: "Cliente (Referente Marketing)" } }, { name: "Analisi Performance Campagna Interna", id: "campPerfInternal", values: { tipoReportDati: "Report Performance Campagna [Nome]", periodoAnalizzato: "Dall'inizio ad oggi", obiettivoAnalisi: "Valutare ROI e identificare ottimizzazioni.", targetAudienceReport: "Team Marketing Interno" } } ],
+        'fs-datiSpecifici': [ { name: "Focus su Conversioni", id: "convFocus", values: { metricheChiave: "Conversioni, Conversion Rate, CPA, Valore Conversione", datiForniti: "[Incollare qui i dati sulle conversioni...]", domandeSpecifiche: "Quali canali/campagne generano più conversioni? Perché il CR è cambiato?", formatoOutputDati: "Punti Elenco Insight Chiave" } }, { name: "Analisi Trend Traffico", id: "trafficFocus", values: { metricheChiave: "Sessioni, Utenti, Sorgenti Traffico, Bounce Rate", datiForniti: "[Incollare qui i dati sul traffico...]", domandeSpecifiche: "Quali sono i principali trend di traffico? Quali sorgenti sono cresciute/calate?", formatoOutputDati: "Analisi Trend Principali" } } ]
+    };
+    // Elementi UI
+    const promptGeneratoTextarea = document.getElementById('prompt_generato');
+    const copiaBtn = document.getElementById('copiaBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const newPresetNameInput = document.getElementById('newPresetName');
+    const savePresetBtn = document.getElementById('savePresetBtn');
+    const localStorageKey = 'userPresets_dataInsight'; // Chiave localStorage specifica
+
+    // --- Funzioni Helper e Principali ---
+    function getCheckboxValues(name) { /* Invariata */ const cbs = document.querySelectorAll(`input[name="${name}"]:checked`); return Array.from(cbs).map(cb => cb.value); }
+    function setCheckboxValues(name, valuesArray) { /* Invariata */ const allCb = document.querySelectorAll(`input[name="${name}"]`); allCb.forEach(cb => { cb.checked = valuesArray ? valuesArray.includes(cb.value) : false; }); }
+    // Funzione getFieldPromptValue adattata
+    function getFieldPromptValue(key, element, isMandatory = false) {
+        if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { return ""; } if (element && element.type === 'checkbox') { return ""; }
+        const value = element && element.value ? element.value.trim() : ''; const label = fieldLabels[key] || key;
+        // Gestione speciale per dati forniti (non interpretare AI_DECIDE o vuoto come suggerimento)
+        if (key === 'datiForniti') {
+             if (value) { return `\n**${label}:**\n\`\`\`\n${value}\n\`\`\`\n`; }
+             else { return `\n**${label}:** [Nessun dato specifico fornito nel campo]\n`;} // E' obbligatorio ma l'AI non può inventarli
+        }
+        if (value === 'AI_DECIDE') { return `**${label}:** [AI Deve Suggerire Valore Ottimale]\n`; }
+        else if (value) { return `**${label}:** ${value}\n`; }
+        else if (isMandatory) { return `**${label}:** [Valore Mancante - AI Deve Suggerire]\n`; }
+        else { return ""; }
+    }
+    // Funzioni Preset Utente (localStorage) - Identiche
+    function loadUserPresets() { try { const storedPresets = localStorage.getItem(localStorageKey); return storedPresets ? JSON.parse(storedPresets) : []; } catch (e) { console.error("Errore caricamento preset utente:", e); return []; } }
+    function saveUserPresets(presetsArray) { try { localStorage.setItem(localStorageKey, JSON.stringify(presetsArray)); } catch (e) { console.error("Errore salvataggio preset utente:", e); alert("Errore salvataggio preset."); } }
+    function saveCurrentPreset() { const presetName = newPresetNameInput.value.trim(); if (!presetName) { alert("Inserisci un nome per il preset."); return; } const userPresets = loadUserPresets(); const existingPresetIndex = userPresets.findIndex(p => p.name === presetName); if (existingPresetIndex !== -1) { if (!confirm(`Preset "${presetName}" esiste già. Sovrascrivere?`)) { return; } } const currentValues = {}; for (const key in formElements) { const element = formElements[key]; if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { currentValues[key] = getCheckboxValues(element[0].name); } else if (element && element.type === 'checkbox') { currentValues[key] = element.checked; } else if (element) { currentValues[key] = element.value; } } const newPreset = { name: presetName, values: currentValues }; if (existingPresetIndex !== -1) { userPresets[existingPresetIndex] = newPreset; } else { userPresets.push(newPreset); } saveUserPresets(userPresets); populatePresetDropdowns(); newPresetNameInput.value = ''; alert(`Preset "${presetName}" salvato!`); }
+    // Funzione Popola Preset (identica)
+    function populatePresetDropdowns() { const userPresets = loadUserPresets(); const allSelectors = document.querySelectorAll('.preset-selector'); allSelectors.forEach(selector => { const sectionId = selector.id.replace('preset-', 'fs-'); const builtInSectionPresets = builtInPresets[sectionId] || []; const existingOptgroups = selector.querySelectorAll('optgroup'); existingOptgroups.forEach(og => og.remove()); while (selector.options.length > 1) { selector.remove(1); } builtInSectionPresets.forEach(preset => { const option = document.createElement('option'); option.value = preset.id; option.textContent = preset.name; option.dataset.isBuiltIn = "true"; selector.appendChild(option); }); if (userPresets.length > 0) { const optgroup = document.createElement('optgroup'); optgroup.label = "Preset Salvati"; userPresets.forEach((preset) => { let isRelevant = false; const fieldsetElement = document.getElementById(sectionId); if (fieldsetElement) { const fieldsInSection = Array.from(fieldsetElement.querySelectorAll('input, select, textarea')).map(el => el.id); isRelevant = Object.keys(preset.values).some(key => fieldsInSection.includes(key)); } if(isRelevant) { const option = document.createElement('option'); option.value = `user_${preset.name}`; option.textContent = preset.name; option.dataset.isUserPreset = "true"; optgroup.appendChild(option); } }); if (optgroup.children.length > 0) { selector.appendChild(optgroup); } } }); }
+     // Funzione Applica Preset (identica)
+     function applyPreset(sectionId, presetId) { let selectedPresetData = null; let isUserPreset = presetId.startsWith('user_'); if (isUserPreset) { const presetName = presetId.substring(5); const userPresets = loadUserPresets(); selectedPresetData = userPresets.find(p => p.name === presetName); } else { const sectionPresets = builtInPresets[sectionId]; if (sectionPresets) { selectedPresetData = sectionPresets.find(p => p.id === presetId); } } if (!selectedPresetData || !selectedPresetData.values) { console.warn("Preset non trovato:", presetId); const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`); if (selector) selector.value = ""; return; } const fieldset = document.getElementById(sectionId); if (!fieldset) return; const presetValues = selectedPresetData.values; for (const fieldId in formElements) { if (presetValues.hasOwnProperty(fieldId)) { const element = formElements[fieldId]; const valueToApply = presetValues[fieldId]; if (element instanceof NodeList && element.length > 0 && element[0].type === 'checkbox') { if (Array.isArray(valueToApply)) { setCheckboxValues(element[0].name, valueToApply); } } else if (element && element.type === 'checkbox') { element.checked = valueToApply; } else if (element) { element.value = valueToApply; if (element.tagName === 'SELECT') { element.dispatchEvent(new Event('change')); } } } } generaPrompt(); const selector = document.getElementById(`preset-${sectionId.replace('fs-', '')}`); if(selector) selector.value = ""; }
+    // Funzione Genera Prompt (specifica per Data Insight)
+    function generaPrompt() {
+        let promptFinale = `**PROMPT PER ANALISI DATI E INSIGHT**\n\n`;
+        // Definisci campi obbligatori per Data Insight
+        let mandatoryFieldsData = ['tipoReportDati', 'periodoAnalizzato', 'obiettivoAnalisi', 'datiForniti', 'formatoOutputDati', 'linguaReport'];
+
+        // Itera sui campi, gestendo 'datiForniti' separatamente alla fine
+        for (const key in formElements) {
+             if (key === 'datiForniti') continue; // Salta dati ora
+             const element = formElements[key]; if (!element) continue;
+             const isMandatory = mandatoryFieldsData.includes(key);
+             promptFinale += getFieldPromptValue(key, element, isMandatory);
+         }
+
+         // Aggiunge i dati forniti in modo speciale alla fine
+          promptFinale += getFieldPromptValue('datiForniti', formElements.datiForniti, true); // Passa true per l'etichetta, ma la logica interna gestirà il contenuto
+
+        promptFinale += `\n---\nAnalizza i dati forniti nel contesto specificato. Rispondi alle domande (se presenti), identifica insight chiave, trend o anomalie rilevanti e presenta i risultati nel formato richiesto (${formElements.formatoOutputDati.value || 'Punti Elenco'}) per il target audience indicato. Sii il più specifico e data-driven possibile.`;
+        promptGeneratoTextarea.value = promptFinale;
+    }
+    // Funzione Copia Prompt (identica)
+    function copiaPrompt() { const testoDaCopiare = promptGeneratoTextarea.value; navigator.clipboard.writeText(testoDaCopiare).then(() => { const t = copiaBtn.textContent; copiaBtn.textContent = 'Copiato!'; copiaBtn.style.backgroundColor = '#28a745'; setTimeout(() => { copiaBtn.textContent = t; copiaBtn.style.backgroundColor = '#e43e30'; }, 2000); }).catch(err => { console.error('Errore copia: ', err); alert('Errore copia testo.'); }); }
+    // Funzione Reset Form (specifica per Data Insight)
+    function resetForm() {
+        const baseValues = { tipoReportDati: "", periodoAnalizzato: "", obiettivoAnalisi: "", targetAudienceReport: "", metricheChiave: "", datiForniti: "", domandeSpecifiche: "", formatoOutputDati: "Punti Elenco Insight Chiave", linguaReport: "Italiano" };
+        for (const key in formElements) { const element = formElements[key]; if (element) { element.value = baseValues[key] || ''; } }
+        // Resetta select specifico
+        if(formElements.formatoOutputDati) formElements.formatoOutputDati.value = baseValues.formatoOutputDati;
+        generaPrompt();
+    }
+    // Event Listeners (con real-time e save preset)
+    document.addEventListener('DOMContentLoaded', () => {
+        populatePresetDropdowns();
+        const presetSelectors = document.querySelectorAll('.preset-selector'); presetSelectors.forEach(selector => { selector.addEventListener('change', (event) => { const selectedPresetId = event.target.value; const fieldset = event.target.closest('fieldset'); if (fieldset && selectedPresetId) { applyPreset(fieldset.id, selectedPresetId); } else if (fieldset) { selector.value = ""; } }); });
+        // Listener Real-Time
+        const form = document.getElementById('promptForm');
+        if (form) {
+            const inputElements = form.querySelectorAll('input:not(#newPresetName), select:not(.preset-selector), textarea');
+            inputElements.forEach(element => {
+                 const eventType = (element.tagName === 'SELECT' || element.type === 'checkbox' || element.type === 'date') ? 'change' : 'input';
+                 element.addEventListener(eventType, generaPrompt);
+            });
+        }
+        // Listener Bottone Salva
+        if(savePresetBtn) { savePresetBtn.addEventListener('click', saveCurrentPreset); }
+        generaPrompt(); // Genera prompt iniziale
+    });
+    copiaBtn.addEventListener('click', copiaPrompt);
+    resetBtn.addEventListener('click', resetForm);
+  </script>
+</body>
+</html>

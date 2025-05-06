@@ -1,0 +1,41 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['is_logged']) || $_SESSION['is_logged'] !== true) {
+    header("Location: login.php"); // Modifica "login.php" con il percorso corretto della tua pagina di login
+    exit;
+}
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home - In:Deck</title>
+  <!-- Stile principale -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome (CDN) per le icone -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+  <!-- Contenitore per la sidebar -->
+  <div class="sidebar-container"></div>  
+  <!-- Contenuto principale -->
+  <div class="content">
+    <!-- Header con logo In:Deck -->
+    <header>
+      <img class="in-deck-logo" src="images/in-deck.png" alt="In:Deck Logo">
+    </header>
+    
+    <main>
+      <h2>🚧 Questa pagina è attualmente in manutenzione. Ci scusiamo per il disagio. 🚧</h2>
+    </main>
+  </div>
+
+ <!-- Includi il file menu.js per popolare la sidebar -->
+  <script src="menu.js"></script>
+  
+  <!-- Script principale (se serve) -->
+  <script src="script.js"></script>
+</body>
+</html>
