@@ -10,7 +10,7 @@ $json_data = json_decode($json, true);
 // --- Configurazione Google OAuth ---
 $clientID     = $json_data['google']['client_id'];
 $clientSecret = $json_data['google']['client_secret'];
-$redirectUri  = $json_data['google']['redirct_uri'];
+$redirectUri  = $json_data['google']['redirect_uri'];
 
 $client = new Google_Client();
 $client->setClientId($clientID);

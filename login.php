@@ -8,7 +8,7 @@ $json_data = json_decode($json, true);
 // Google OAuth2 configuration
 $clientID     = $json_data['google']['client_id'];
 $clientSecret = $json_data['google']['client_secret'];
-$redirectUri  = $json_data['google']['redirct_uri'];
+$redirectUri  = $json_data['google']['redirect_uri'];
 
 // create Client Request to access Google API
 $client = new Google_Client();
